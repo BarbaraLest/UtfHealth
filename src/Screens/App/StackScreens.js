@@ -23,7 +23,12 @@ import Clinical from './../Student/medical history/Clinical'
 import Dental from './../Student/medical history/Dental'
 import Psychological from './../Student/medical history/Psychological'
 import School from './../Student/medical history/School'
-import { __SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED } from 'react';
+import ClinicalOperations from './../Student/medical history/ClinicalOperations'
+import DentalOperations from './../Student/medical history/DentalOperations'
+import PsychologicalOperations from './../Student/medical history/PsychologicalOperations'
+import SchoolOperations from './../Student/medical history/SchoolOperations'
+
+
 import styles from '../Commom/components/styles';
 
 const Stack = createStackNavigator();
@@ -49,46 +54,46 @@ const MenuTab = () => {
         style: {
           elevation: 0,
           position: 'absolute',
-          bottom:25,
-          left:20,
-          right:20,
+          bottom: 25,
+          left: 20,
+          right: 20,
           backgroundColor: "#ffbdaf",
           height: 90,
-          borderRadius:15,
+          borderRadius: 15,
           ...style.shadow,
-          
+
         }
       }}
     >
       <Tab.Screen name="Clinical" component={Clinical} options={{
-        tabBarIcon: ({focused}) => (
-          <View style={{alignItems:'center', justifyContent:'center', }}>
-          <Icon name="heart" size={25} color="#c85b53"  />
-          <Text style={{color: focused ? "#c85b53" : "#404040", fontSize:15, fontFamily: 'sans-serif'}}>Saúde</Text>
+        tabBarIcon: ({ focused }) => (
+          <View style={{ alignItems: 'center', justifyContent: 'center', }}>
+            <Icon name="heart" size={25} color="#c85b53" />
+            <Text style={{ color: focused ? "#c85b53" : "#404040", fontSize: 15, fontFamily: 'sans-serif' }}>Saúde</Text>
           </View>
         )
       }} />
       <Tab.Screen name="Dental" component={Dental} options={{
-        tabBarIcon: ({focused}) => (
-          <View style={{alignItems:'center', justifyContent:'center', }}>
-          <Icon name="heart" size={25} color="#c85b53"  />
-          <Text style={{color: focused ? "#c85b53" : "#404040", fontSize:15, fontFamily: 'sans-serif'}}>Dental</Text>
+        tabBarIcon: ({ focused }) => (
+          <View style={{ alignItems: 'center', justifyContent: 'center', }}>
+            <Icon name="heart" size={25} color="#c85b53" />
+            <Text style={{ color: focused ? "#c85b53" : "#404040", fontSize: 15, fontFamily: 'sans-serif' }}>Dental</Text>
           </View>
         )
       }} />
       <Tab.Screen name="Psychological" component={Psychological} options={{
-        tabBarIcon: ({focused}) => (
-          <View style={{alignItems:'center', justifyContent:'center', }}>
-          <Icon name="heart" size={25} color="#c85b53"  />
-          <Text style={{color: focused ? "#c85b53" : "#404040", fontSize:15, fontFamily: 'sans-serif'}}>Psicológico</Text>
+        tabBarIcon: ({ focused }) => (
+          <View style={{ alignItems: 'center', justifyContent: 'center', }}>
+            <Icon name="heart" size={25} color="#c85b53" />
+            <Text style={{ color: focused ? "#c85b53" : "#404040", fontSize: 15, fontFamily: 'sans-serif' }}>Psicológico</Text>
           </View>
         )
       }} />
       <Tab.Screen name="School" component={School} options={{
-        tabBarIcon: ({focused}) => (
-          <View style={{alignItems:'center', justifyContent:'center', }}>
-          <Icon name="heart" size={25} color="#c85b53"  />
-          <Text style={{color: focused ? "#c85b53" : "#404040", fontSize:15, fontFamily: 'sans-serif'}}>Escolar</Text>
+        tabBarIcon: ({ focused }) => (
+          <View style={{ alignItems: 'center', justifyContent: 'center', }}>
+            <Icon name="heart" size={25} color="#c85b53" />
+            <Text style={{ color: focused ? "#c85b53" : "#404040", fontSize: 15, fontFamily: 'sans-serif' }}>Escolar</Text>
           </View>
         )
       }} />
@@ -144,6 +149,26 @@ export default function StackScreen({ navigation }) {
           options={{ headerShown: false }}
           component={MenuTab}
         />
+        <Stack.Screen
+          name="ClinicalOperations"
+          options={{ headerShown: false }}
+          component={ClinicalOperations}
+        />
+        <Stack.Screen
+          name="DentalOperations"
+          options={{ headerShown: false }}
+          component={DentalOperations}
+        />
+         <Stack.Screen
+          name="PsychologicalOperations"
+          options={{ headerShown: false }}
+          component={PsychologicalOperations}
+        />
+        <Stack.Screen
+          name="SchoolOperations"
+          options={{ headerShown: false }}
+          component={SchoolOperations}
+        />
       </Stack.Navigator>
 
     );
@@ -164,6 +189,26 @@ export default function StackScreen({ navigation }) {
           name="Clinical"
           options={{ headerShown: false }}
           component={MenuTab}
+        />
+        <Stack.Screen
+          name="ClinicalOperations"
+          options={{ headerShown: false }}
+          component={ClinicalOperations}
+        />
+        <Stack.Screen
+          name="DentalOperations"
+          options={{ headerShown: false }}
+          component={DentalOperations}
+        />
+        <Stack.Screen
+          name="PsychologicalOperations"
+          options={{ headerShown: false }}
+          component={PsychologicalOperations}
+        />
+         <Stack.Screen
+          name="SchoolOperations"
+          options={{ headerShown: false }}
+          component={SchoolOperations}
         />
       </Stack.Navigator>
     );

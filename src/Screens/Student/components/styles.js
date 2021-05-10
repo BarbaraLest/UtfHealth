@@ -24,6 +24,12 @@ export default {
     marginTop: 20
 
   },
+  buttonFab:{
+    position: 'absolute',
+    margin: 16,
+    right: 150,
+    bottom:300,
+  },
 
   componentsView: {
     backgroundColor: 'transparent',
@@ -32,13 +38,44 @@ export default {
     //justifyContent: 'space-evenly',
     alignSelf: 'center',
   },
+
   componentsHMView: {
     backgroundColor: 'transparent',
     flex: 1,
     width: '85%',
-
     justifyContent: 'space-evenly',
     alignSelf: 'center',
+  },
+
+  flatlistRow:{ 
+    flexDirection: 'row', 
+    backgroundColor:"transparent", 
+    justifyContent:'space-between', 
+    alignItems:'center' 
+  },
+
+  textFlatlistRow:{
+    fontSize: 20,
+    color: '#ef3340',
+    fontFamily: 'sans-serif',
+    marginLeft:20,
+    marginTop:10
+
+  },
+  subTextFlatlistRow:{
+    fontSize: 17,
+    color: '#ffcbaf',
+    fontFamily: 'sans-serif',
+    marginLeft:20,
+    marginTop:10
+
+  }, 
+
+  textDentalOperations:{
+    fontSize: 20,
+    color: '#404040',
+    fontFamily: 'sans-serif',
+    marginLeft:20
   },
 
   textTouchableOpacity: {
