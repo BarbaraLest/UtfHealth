@@ -134,8 +134,8 @@ export default function School({ navigation }) {
             <PaperProvider theme={styles.theme}>
                 <View style={styles.background}>
                     <Appbar.Header style={{ backgroundColor: "#FF8A80" }}>
-                        <Appbar.BackAction onPress={() => navigation.navigate('Home')} color={'#c85b53'} />
-                        <Appbar.Content title="Histórico Médico" color={"#c85b53"} />
+                        <Appbar.BackAction onPress={() => navigation.navigate('Home')} color={'#404040'} />
+                        <Appbar.Content title="Histórico Médico" color={'#404040'} />
                     </Appbar.Header>
                     <View style={styles.componentsHMView}>
                         <View style={{ flex: 1, justifyContent: 'flex-start' }}>

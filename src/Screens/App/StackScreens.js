@@ -76,7 +76,7 @@ const MenuTab = () => {
       <Tab.Screen name="Dental" component={Dental} options={{
         tabBarIcon: ({ focused }) => (
           <View style={{ alignItems: 'center', justifyContent: 'center', }}>
-            <Icon name="heart" size={25} color="#c85b53" />
+            <Icon name="tooth" size={25} color="#c85b53" />
             <Text style={{ color: focused ? "#c85b53" : "#404040", fontSize: 15, fontFamily: 'sans-serif' }}>Dental</Text>
           </View>
         )
@@ -84,7 +84,7 @@ const MenuTab = () => {
       <Tab.Screen name="Psychological" component={Psychological} options={{
         tabBarIcon: ({ focused }) => (
           <View style={{ alignItems: 'center', justifyContent: 'center', }}>
-            <Icon name="heart" size={25} color="#c85b53" />
+            <Icon name="head" size={25} color="#c85b53" />
             <Text style={{ color: focused ? "#c85b53" : "#404040", fontSize: 15, fontFamily: 'sans-serif' }}>Psicológico</Text>
           </View>
         )
@@ -92,7 +92,7 @@ const MenuTab = () => {
       <Tab.Screen name="School" component={School} options={{
         tabBarIcon: ({ focused }) => (
           <View style={{ alignItems: 'center', justifyContent: 'center', }}>
-            <Icon name="heart" size={25} color="#c85b53" />
+            <Icon name="school" size={25} color="#c85b53" />
             <Text style={{ color: focused ? "#c85b53" : "#404040", fontSize: 15, fontFamily: 'sans-serif' }}>Escolar</Text>
           </View>
         )

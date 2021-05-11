@@ -3,12 +3,12 @@ import { View, Image, ScrollView, StyleSheet, Text, ImageBackground } from 'reac
 import { Card, Title, IconButton } from 'react-native-paper';
 import styles from './components/styles';
 
-//import fundo3 from './../../../assets/imgs/fundo3.png'
+import fundo from './../../../assets/imgs/fundoR1.png'
 import { setNestedObjectValues } from 'formik';
 //import AsyncStorage from '@react-native-async-storage/async-storage';
 //import styles from './styles';
 //import Icon from 'react-native-vector-icons/MaterialIcons';
-import Icon from 'react-native-vector-icons/FontAwesome';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 
 export default function Home({ navigation }) {
@@ -55,7 +55,7 @@ export default function Home({ navigation }) {
   function HomeUser() {
     return (
       <View style={styles.background}>
-        <ImageBackground  style={{ width: '100%', height: '100%', alignItems: 'center' }} >
+        <ImageBackground source={fundo} style={{ width: '100%', height: '100%', alignItems: 'center', marginTop:-3}} >
           <View style={styles.homeHeaderContainer}>
             <IconButton
               icon="menu"
@@ -72,7 +72,7 @@ export default function Home({ navigation }) {
                   elevation={3}
                   onPress={() => navigation.navigate('Appointment')}
                 >
-                 <Icon name="rocket" size={60} color="#00baca" style={{alignSelf:'center', marginTop:5}}/>
+                 <Icon name="calendar-clock" size={60} color="#00baca" style={{alignSelf:'center', marginTop:15}}/>
                   <Card.Content > 
                     <Title style={{alignSelf:'center', color:'#00baca'}}>Marcar consulta</Title>
 
@@ -85,7 +85,7 @@ export default function Home({ navigation }) {
                   style={styles.card2}
                   elevation={3}
                 >
-                  <Icon name="rocket" size={60} color="#00cf43" style={{alignSelf:'center', marginTop:5}}/>
+                  <Icon name="calendar-multiselect" size={60} color="#00cf43" style={{alignSelf:'center', marginTop:15}}/>
                   <Card.Content > 
                     <Title style={{alignSelf:'center', color:'#00cf43'}}>Calendário</Title>
 
@@ -96,7 +96,7 @@ export default function Home({ navigation }) {
                   style={styles.card3}
                   elevation={3}
                 >
-                  <Icon name="rocket" size={60} color="#cb005c" style={{alignSelf:'center', marginTop:5}}/>
+                  <Icon name="rocket" size={60} color="#cb005c" style={{alignSelf:'center', marginTop:15}}/>
                   <Card.Content > 
                     <Title style={{alignSelf:'center', color:'#cb005c'}}>Calendário</Title>
 
@@ -110,7 +110,7 @@ export default function Home({ navigation }) {
                   elevation={3}
                   onPress={() => navigation.navigate('Clinical')}
                 >
-                  <Icon name="rocket" size={60} color="#f47806" style={{alignSelf:'center', marginTop:5}}/>
+                  <Icon name="ballot" size={60} color="#f47806" style={{alignSelf:'center', marginTop:15}}/>
                   <Card.Content > 
                     <Title style={{alignSelf:'center', color:'#f47806'}}>Histórico médico</Title>
 
