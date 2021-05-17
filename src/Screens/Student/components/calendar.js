@@ -2,6 +2,8 @@ import _ from 'lodash';
 import React, {Component} from 'react';
 import {Platform, Alert, StyleSheet, View, Text, TouchableOpacity, Button} from 'react-native';
 import {ExpandableCalendar, AgendaList, CalendarProvider, WeekCalendar} from 'react-native-calendars';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
 
 const testIDs = require('./../testIDS');
 
@@ -31,19 +33,55 @@ const ITEMS = [
   {
     title: dates[1],
     data: [
-      {hour: '4pm', duration: '1h', title: 'Pilates ABC'},
-      {hour: '5pm', duration: '1h', title: 'Vinyasa Yoga'}
+      {hour: '09:00', duration: '1h', title: 'Atendimento'},
+      {hour: '10:00', duration: '1h', title: 'Atendimento'},
+      {hour: '11:00', duration: '1h', title: 'Atendimento'},
+      {hour: '15:00', duration: '1h', title: 'Atendimento'}
     ]
   },
   {
     title: dates[2],
     data: [
-      {hour: '1pm', duration: '1h', title: 'Ashtanga Yoga'},
-      {hour: '2pm', duration: '1h', title: 'Deep Streches'},
-      {hour: '3pm', duration: '1h', title: 'Private Yoga'}
+      {hour: '09:00', duration: '1h', title: 'Atendimento'},
+      {hour: '10:00', duration: '1h', title: 'Atendimento'},
+      {hour: '11:00', duration: '1h', title: 'Atendimento'},
+      {hour: '15:00', duration: '1h', title: 'Atendimento'}
     ]
   },
+ 
 ];
+
+
+function options(date, time){
+  setDate(date)
+  setTime(time)
+  console.log(time)
+}
+
+const setDate = async (date, time) => {
+  try {
+    await AsyncStorage.setItem(
+      '@UtfApi:date',
+      date,
+    );
+    console.log(date)
+  } catch (e) {
+    console.log(e);
+  }
+};
+
+const setTime = async (date, time) => {
+  try {
+    await AsyncStorage.setItem(
+      '@UtfApi:time',
+      date,
+    );
+    console.log(date)
+  } catch (e) {
+    console.log(e);
+  }
+};
+
 
 export default class ExpandableCalendarScreen extends Component {
   onDateChanged = (/* date, updateSource */) => {
@@ -55,12 +93,18 @@ export default class ExpandableCalendarScreen extends Component {
     // console.warn('ExpandableCalendarScreen onMonthChange: ', month, updateSource);
   };
 
-  buttonPressed() {
-    Alert.alert('show more');
+  buttonPressed(time) {
+    Alert.alert(
+      "Atenção!",
+      "Horário livre.",
+      [
+          { text: "Escolher este horário", onPress: () => options(today, time) }
+      ]
+  )
   }
 
   itemPressed(id) {
-    Alert.alert(id);
+    Alert.alert("Horário de atendimento");
   }
 
   renderEmptyItem() {
@@ -84,7 +128,7 @@ export default class ExpandableCalendarScreen extends Component {
         </View>
         <Text style={styles.itemTitleText}>{item.title}</Text>
         <View style={styles.itemButtonContainer}>
-          <Button color={'grey'} title={'Info'} onPress={this.buttonPressed} />
+          <Button color={'green'} title={'Livre'} onPress={() => this.buttonPressed(item.hour)} />
         </View>
       </TouchableOpacity>
     );
@@ -145,27 +189,14 @@ export default class ExpandableCalendarScreen extends Component {
         date={ITEMS[0].title}
         onDateChanged={this.onDateChanged}
         onMonthChange={this.onMonthChange}
-        showTodayButton
+       
         disabledOpacity={0.6}
-        // theme={{
-        //   todayButtonTextColor: themeColor
-        // }}
-        // todayBottomMargin={16}
       >
         {this.props.weekView ? (
           <WeekCalendar testID={testIDs.weekCalendar.CONTAINER} firstDay={1} markedDates={this.getMarkedDates()} />
         ) : (
           <ExpandableCalendar
             testID={testIDs.expandableCalendar.CONTAINER}
-            // horizontal={false}
-            // hideArrows
-            // disablePan
-            // hideKnob
-            // initialPosition={ExpandableCalendar.positions.OPEN}
-            // calendarStyle={styles.calendar}
-            // headerStyle={styles.calendar} // for horizontal only
-            // disableWeekScroll
-            // theme={this.getTheme()}
             disableAllTouchEventsForDisabledDays
             firstDay={1}
             markedDates={this.getMarkedDates()} // {'2019-06-01': {marked: true}, '2019-06-02': {marked: true}, '2019-06-03': {marked: true}};

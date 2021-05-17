@@ -22,8 +22,8 @@ import {
   Button,
   Provider as PaperProvider
 } from 'react-native-paper';
-import {AuthContext} from './../App/Context'
-import styles from './components/styles'
+import {AuthContext} from './../../Navigation/Context'
+import styles from './styles'
 import { Formik } from 'formik';
 import * as yup from 'yup';
 //import logo from './../../../assets/imgs/logo-figma.png'
@@ -44,7 +44,6 @@ export default function Login({ navigation }) {
     });
   };
 
- 
   const {signIn} = React.useContext(AuthContext);
 
   const loginHandle = (username, password) => {
@@ -52,6 +51,7 @@ export default function Login({ navigation }) {
     signIn(username, password);
     console.log('está passando aqui');
   };
+
 
   const reviewSchema = yup.object({
     username: yup

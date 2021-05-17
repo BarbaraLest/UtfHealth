@@ -91,7 +91,7 @@ export default function DentalOperations({ navigation, previus }) {
                                 />
                             </View>
                             <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
-                                <Text style={styles.textDentalOperations}> Você extraiu os cisos? </Text>
+                                <Text style={styles.textDentalOperations}> Você extraiu os siso? </Text>
                                 <RadioButton
                                     value="first"
                                     status={checkedDental4 ? 'checked' : 'unchecked'}

@@ -1,4 +1,4 @@
-import React, { useState, useRef, useCallback } from 'react'
+import React, { useState, useRef, useCallback, useEffect } from 'react'
 import {
     View,
     Text,
@@ -16,8 +16,11 @@ import {
     Divider
 
 } from 'react-native-paper'
+import axios from 'axios'
 import { Modalize, ScrollView, Animated } from 'react-native-modalize'
 import { Calendar, CalendarList, Agenda, LocaleConfig } from 'react-native-calendars'
+import AppointmentModel from './../../Models/Student/Appointment'
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import styles from './components/styles'
 import Icon from 'react-native-vector-icons/MaterialIcons';
@@ -25,6 +28,12 @@ import ExpandableCalendarScreen from './components/calendar'
 
 
 export default function Appointment({ navigation, previus }) {
+
+    useEffect(() => {
+        responseDoctor()
+    }, [])
+
+
 
     const dados1 =[
         {id:1, name:'Nuape'},
@@ -47,8 +56,8 @@ export default function Appointment({ navigation, previus }) {
 
     const [localId, setLocalId] = useState({ id: null})
 
-    const localIdCallback = useCallback((itemId) => {
-        setLocalId({ id: itemId})
+    const localIdCallback = useCallback((itemId, name) => {
+        setLocalId({ id: itemId, place: name})
         console.log(localId)
     }, [localId])
 
@@ -94,6 +103,7 @@ export default function Appointment({ navigation, previus }) {
                 <View style={{ flexDirection: 'column' }}>
                     <Text style={styles.textFlatlistRow}>{specialty}</Text>
                     <Text style={styles.subTextFlatlistRow}>{name}</Text>
+             
 
                 </View>
                 <Divider style={{ backgroundColor: '#c2c6ca', marginTop: 20 }} />
@@ -116,10 +126,10 @@ export default function Appointment({ navigation, previus }) {
                     <View>
                         <FlatList
                             style={{ marginTop: 40 }}
-                            data={dados2}
+                            data={doctorList.doctorList}
                             keyExtractor={(item) => item.id}
                             renderItem={({ item }) =>
-                                <Person name={item.name} specialty={item.specialty} itemId={item.id} />}
+                                <Person name={item.name} specialty={item.specialty} itemId={item.idDoctor} />}
                         >
                         </FlatList>
                     </View>
@@ -141,7 +151,7 @@ export default function Appointment({ navigation, previus }) {
     function Local({ local, id }) {
         return (
             <TouchableOpacity onPress={() => {
-               localIdCallback(id)
+               localIdCallback(id, local)
                 onClose3()
             }}>
                 <View style={{ flexDirection: 'row' }}>
@@ -170,7 +180,7 @@ export default function Appointment({ navigation, previus }) {
                             data={dados1}
                             keyExtractor={(item) => item.id}
                             renderItem={({ item }) =>
-                                <Local local={item.name} id={item.id} />}
+                                <Local local={item.name} id={item.id}  />}
                         >
                         </FlatList>
                     </View>
@@ -179,6 +189,44 @@ export default function Appointment({ navigation, previus }) {
             </View>
         )
     }
+
+    const [doctorList, setDoctorList] = useState(null)
+
+   async function responseDoctor(){
+        axios.get(`http://10.0.2.2:3000/doctor`,)
+        .then(function (response) {
+          console.log(response.data.data);
+          setDoctorList({ doctorList: response.data.data })
+        })
+        .catch(function (error) {
+          console.log(error);
+        })
+        .then(function () {
+        });
+    }
+
+    async function createAppointment() {
+        var date = await AsyncStorage.getItem('@UtfApi:date');
+        var time = await AsyncStorage.getItem('@UtfApi:time');
+     
+        axios.post(`http://10.0.2.2:3000/appointment`,{
+            "Student_idStudent": 31,
+            "Doctor_idDoctor": 10,
+            "date": date,
+            "time": time,
+            "place": localId.place,
+            "observations": "testes"
+        })
+        .then(function (response) {
+          console.log(response.data);
+        })
+        .catch(function (error) {
+          console.log(error);
+        })
+        .then(function () {
+        });
+       
+      }
 
 
     return (
@@ -226,7 +274,7 @@ export default function Appointment({ navigation, previus }) {
                                 <FAB
                                     style={styles.buttonNewAcc}
                                     label="Salvar"
-                                    onPress={() => console.log('aq vai p chamada da api')}
+                                    onPress={() => createAppointment()}
                                 />
                             </View>
                         </View>

@@ -15,21 +15,22 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
 //import AsyncStorage from '@react-native-async-storage/async-storage';
 
-import Home from './../Commom/Home'
-import DrawerContent from '../Commom/DrawerContent'
+import Home from './../Screens/Home/Home'
+import DrawerContent from './../Screens/Drawer/DrawerContent'
 
-import Appointment from './../Student/Appointment'
-import Clinical from './../Student/medical history/Clinical'
-import Dental from './../Student/medical history/Dental'
-import Psychological from './../Student/medical history/Psychological'
-import School from './../Student/medical history/School'
-import ClinicalOperations from './../Student/medical history/ClinicalOperations'
-import DentalOperations from './../Student/medical history/DentalOperations'
-import PsychologicalOperations from './../Student/medical history/PsychologicalOperations'
-import SchoolOperations from './../Student/medical history/SchoolOperations'
+import Appointment from './../Screens/Student/Appointment'
+import Clinical from './../Screens/Student/Appointment'
+import Dental from './../Screens/Student/medical history/Dental'
+import Psychological from './../Screens/Student/medical history/Psychological'
+import School from './../Screens/Student/medical history/School'
+import ClinicalOperations from './../Screens/Student/medical history/ClinicalOperations'
+import DentalOperations from './../Screens/Student/medical history/DentalOperations'
+import PsychologicalOperations from './../Screens/Student/medical history/PsychologicalOperations'
+import SchoolOperations from './../Screens/Student/medical history/SchoolOperations'
 
 
-import styles from '../Commom/components/styles';
+
+
 
 const Stack = createStackNavigator();
 const Drawer = createDrawerNavigator();

@@ -1,7 +1,7 @@
 import React, { Component, useState, useEffect } from 'react';
 import { View, Image, ScrollView, StyleSheet, Text, ImageBackground } from 'react-native';
 import { Card, Title, IconButton } from 'react-native-paper';
-import styles from './components/styles';
+import styles from './styles';
 
 import fundo from './../../../assets/imgs/fundoR1.png'
 import { setNestedObjectValues } from 'formik';

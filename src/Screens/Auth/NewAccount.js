@@ -17,12 +17,21 @@ import {
     DefaultTheme,
     Provider as PaperProvider
 } from 'react-native-paper';
-import styles from './components/styles'
+import styles from './styles'
 import { Formik } from 'formik';
 import * as yup from 'yup';
+import NewAccountModel from './../../Models/Auth/NewAccount'
 //import fundo2 from './../../../assets/imgs/fundo2.png'
 
+import axios from 'axios'
+
+
 export default function NewAccount({ navigation, previous }) {
+
+ function response(name, email, register, password){
+     const data = { name: name, email: email, register: register, password: password}
+     NewAccountModel(data)
+ }
 
     const reviewSchema = yup.object({
         name: yup
@@ -96,13 +105,13 @@ export default function NewAccount({ navigation, previous }) {
                                 placeholderTextColor='#c85b53'
                                 style={styles.textInput}
                                 underlineColor="#c85b53"
-                                value={props.values.name}
-                                onChangeText={props.handleChange('name')}
-                                onBlur={props.handleBlur('name')}
+                                value={props.values.email}
+                                onChangeText={props.handleChange('email')}
+                                onBlur={props.handleBlur('email')}
                                 left={<TextInput.Icon name="rename-box" color="#ffbdaf" />  }
                                 />
                                 <Text style={styles.textError}>
-                                    {props.touched.name && props.errors.name}
+                                    {props.touched.email && props.errors.email}
                                 </Text>
 
                                 <TextInput
@@ -111,13 +120,13 @@ export default function NewAccount({ navigation, previous }) {
                                 placeholderTextColor='#c85b53'
                                 style={styles.textInput}
                                 underlineColor="#c85b53"
-                                value={props.values.name}
-                                onChangeText={props.handleChange('name')}
-                                onBlur={props.handleBlur('name')}
+                                value={props.values.register}
+                                onChangeText={props.handleChange('register')}
+                                onBlur={props.handleBlur('register')}
                                 left={<TextInput.Icon name="rename-box" color="#ffbdaf" />  }
                                 />
                                 <Text style={styles.textError}>
-                                    {props.touched.name && props.errors.name}
+                                    {props.touched.register && props.errors.register}
                                 </Text>
 
                                 <TextInput
@@ -126,13 +135,13 @@ export default function NewAccount({ navigation, previous }) {
                                 placeholderTextColor='#c85b53'
                                 style={styles.textInput}
                                 underlineColor="#c85b53"
-                                value={props.values.name}
-                                onChangeText={props.handleChange('name')}
-                                onBlur={props.handleBlur('name')}
+                                value={props.values.password}
+                                onChangeText={props.handleChange('password')}
+                                onBlur={props.handleBlur('password')}
                                 left={<TextInput.Icon name="rename-box" color="#ffbdaf" />  }
                                 />
                                 <Text style={styles.textError}>
-                                    {props.touched.name && props.errors.name}
+                                    {props.touched.password && props.errors.password}
                                 </Text>
                                 <Text style={{marginBottom:25}}></Text>
                             </View>
@@ -145,13 +154,14 @@ export default function NewAccount({ navigation, previous }) {
                             <FAB
                                 style={styles.buttonNewAcc}
                                 label="Salvar"
+                                onPress={() => response(
+                                    props.values.name,
+                                    props.values.email,
+                                    props.values.register,
+                                    props.values.password
+                                    )}
                             />
                             </View>
-
-
-
-
-                           
                         </View>
                         </TouchableWithoutFeedback>
                     )}

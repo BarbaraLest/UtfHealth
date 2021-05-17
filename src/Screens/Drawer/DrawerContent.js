@@ -9,10 +9,10 @@ import {
   DefaultTheme,
 } from 'react-native-paper';
 import { DrawerItem } from '@react-navigation/drawer';
-import styles from './components/styles';
+import styles from './styles';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
-import { AuthContext } from '../App/Context';
+import { AuthContext } from './../../Navigation/Context';
 
 export default function DrawerContent(props) {
     const {signOut} = React.useContext(AuthContext);
