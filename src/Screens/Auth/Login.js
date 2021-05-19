@@ -47,7 +47,7 @@ export default function Login({ navigation }) {
   const {signIn} = React.useContext(AuthContext);
 
   const loginHandle = (username, password) => {
-    // console.log(username, password)
+     console.log(username, password)
     signIn(username, password);
     console.log('está passando aqui');
   };

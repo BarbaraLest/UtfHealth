@@ -5,7 +5,9 @@ import {
     TouchableOpacity,
     TouchableWithoutFeedback,
     Keyboard,
-    FlatList
+    FlatList,
+    Alert,
+    LogBox
 } from 'react-native'
 import {
     Appbar,
@@ -25,6 +27,8 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import styles from './components/styles'
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import ExpandableCalendarScreen from './components/calendar'
+
+LogBox.ignoreAllLogs();
 
 
 export default function Appointment({ navigation, previus }) {
@@ -46,6 +50,8 @@ export default function Appointment({ navigation, previus }) {
         {id:2, name:'Medico 1', specialty:'Pedagoga'},
         {id:3, name:'Medico 1', specialty:'Psicóloga'},
     ]
+
+    const [observations, setObservations] = useState()
 
     const [doctorId, setDoctorId] = useState({ id: null})
 
@@ -208,17 +214,18 @@ export default function Appointment({ navigation, previus }) {
     async function createAppointment() {
         var date = await AsyncStorage.getItem('@UtfApi:date');
         var time = await AsyncStorage.getItem('@UtfApi:time');
-     
+            
         axios.post(`http://10.0.2.2:3000/appointment`,{
-            "Student_idStudent": 31,
-            "Doctor_idDoctor": 10,
+            "Student_idStudent": 32,
+            "Doctor_idDoctor": doctorId.id,
             "date": date,
             "time": time,
             "place": localId.place,
-            "observations": "testes"
+            "observations": observations
         })
         .then(function (response) {
           console.log(response.data);
+          createSuccessAlert()
         })
         .catch(function (error) {
           console.log(error);
@@ -227,6 +234,15 @@ export default function Appointment({ navigation, previus }) {
         });
        
       }
+
+      const createSuccessAlert = () =>
+      Alert.alert(
+          "Parabéns!",
+          "Sua consulta foi marcada com sucesso.",
+          [
+              { text: "Ok", onPress: () => navigation.navigate('Home')}
+          ]
+      )
 
 
     return (
@@ -260,6 +276,8 @@ export default function Appointment({ navigation, previus }) {
                                     label='Observações'
                                     mode='flat'
                                     placeholderTextColor='#c85b53'
+                                    value={observations}
+                                    onChangeText={observations => setObservations(observations)}
                                     style={styles.textInput}
                                     underlineColor="#c85b53"
                                     left={<TextInput.Icon name="rename-box" color="#ffbdaf" />}
@@ -269,7 +287,9 @@ export default function Appointment({ navigation, previus }) {
                                 <FAB
                                     style={styles.buttonNewAcc}
                                     label="Cancelar"
-                                    onPress={navigation.goBack}
+                                   // onPress={navigation.goBack}
+                                   onPress={() => console.log(doctorId.id)}
+                                   
                                 />
                                 <FAB
                                     style={styles.buttonNewAcc}
