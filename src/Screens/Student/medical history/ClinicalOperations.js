@@ -19,7 +19,8 @@ import {
 import { Modalize, ScrollView, Animated } from 'react-native-modalize'
 import styles from './../components/styles'
 import Icon from 'react-native-vector-icons/MaterialIcons';
-
+import axios from 'axios'
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
 export default function ClinicalOperations({ navigation, previus }) {
@@ -36,6 +37,28 @@ export default function ClinicalOperations({ navigation, previus }) {
         familyDisease1: 'Cancêr',
         familyDisease2: 'Pressão Alta',
         familyDisease3: 'Alzheimer',
+
+    }
+
+    async function createAppointment() {
+        var id = await AsyncStorage.getItem('@UtfApi:idStudent');
+        axios.post(`http://10.0.2.2:3000/appointment`, {
+            "Student_idStudent": id,
+            "Doctor_idDoctor": doctorId.id,
+            "date": date.date,
+            "time": time.time,
+            "place": localId.place,
+            "observations": observations
+        })
+            .then(function (response) {
+                console.log(response.data);
+                createSuccessAlert()
+            })
+            .catch(function (error) {
+                console.log(error);
+            })
+            .then(function () {
+            });
 
     }
 
@@ -358,7 +381,7 @@ export default function ClinicalOperations({ navigation, previus }) {
                                 <FAB
                                     style={styles.buttonNewAcc}
                                     label="Salvar"
-                                    onPress={() => console.log(chronicDisease)}
+                                    onPress={() => console.log(chronicDisease[0].name)}
                                 />
                             </View>
                         </View>

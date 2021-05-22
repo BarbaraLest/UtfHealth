@@ -19,7 +19,7 @@ import Home from './../Screens/Home/Home'
 import DrawerContent from './../Screens/Drawer/DrawerContent'
 
 import Appointment from './../Screens/Student/Appointment'
-import Clinical from './../Screens/Student/Appointment'
+import Clinical from './../Screens/Student/medical history/Clinical'
 import Dental from './../Screens/Student/medical history/Dental'
 import Psychological from './../Screens/Student/medical history/Psychological'
 import School from './../Screens/Student/medical history/School'

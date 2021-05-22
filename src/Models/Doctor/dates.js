@@ -1,0 +1,40 @@
+export default dates = {
+    "2021-05-24": {startingDay: true, color: '#B4F2A2', textColor: 'grey' },
+    '2021-05-25': { selected: true, color: '#B4F2A2', textColor: 'grey'},
+    '2021-05-26': { selected: true, color: '#B4F2A2', textColor: 'grey'},
+    '2021-05-27': {selected: true, color: '#B4F2A2', textColor: 'grey'},
+    '2021-05-28': {endingDay:true, color:'#B4F2A2', textColor: 'grey'},
+
+    "2021-05-31": {startingDay: true, color: '#B4F2A2', textColor: 'grey' },
+    '2021-06-01': {selected: true, color: '#B4F2A2', textColor: 'grey'},
+    '2021-06-02': {selected: true, color: '#B4F2A2', textColor: 'grey'},
+    '2021-06-03': {selected: true, color: '#B4F2A2', textColor: 'grey'},
+    '2021-06-05': {endingDay:true, color:'#B4F2A2', textColor: 'grey'},
+
+    "2021-06-07": {startingDay: true, color: '#B4F2A2', textColor: 'grey' },
+    '2021-06-08': {selected: true, color: '#B4F2A2', textColor: 'grey'},
+    '2021-06-09': { selected: true, color: '#B4F2A2', textColor: 'grey'},
+    '2021-06-10': {selected: true, color: '#B4F2A2', textColor: 'grey'},
+    '2021-06-11': {endingDay:true, color:'#B4F2A2', textColor: 'grey'},
+
+    
+    "2021-06-14": {startingDay: true, color: '#B4F2A2', textColor: 'grey' },
+    '2021-06-15': {selected: true, color: '#B4F2A2', textColor: 'grey'},
+    '2021-06-16': { selected: true, color: '#B4F2A2', textColor: 'grey'},
+    '2021-06-17': {selected: true, color: '#B4F2A2', textColor: 'grey'},
+    '2021-06-18': {endingDay:true, color:'#B4F2A2', textColor: 'grey'},
+
+    "2021-06-21": {startingDay: true, color: '#B4F2A2', textColor: 'grey' },
+    '2021-06-22': {selected: true, color: '#B4F2A2', textColor: 'grey'},
+    '2021-06-23': { selected: true, color: '#B4F2A2', textColor: 'grey'},
+    '2021-06-24': {selected: true, color: '#B4F2A2', textColor: 'grey'},
+    '2021-06-25': {endingDay:true, color:'#B4F2A2', textColor: 'grey'},
+
+
+    "2021-06-28": {startingDay: true, color: '#B4F2A2', textColor: 'grey' },
+    '2021-06-29': {selected: true, color: '#B4F2A2', textColor: 'grey'},
+    '2021-06-30': { selected: true, color: '#B4F2A2', textColor: 'grey'},
+    '2021-07-01': {selected: true, color: '#B4F2A2', textColor: 'grey'},
+    '2021-07-02': {endingDay:true, color:'#B4F2A2', textColor: 'grey'},
+
+  }

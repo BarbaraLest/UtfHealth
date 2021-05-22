@@ -19,14 +19,13 @@ import {
 
 } from 'react-native-paper'
 import axios from 'axios'
-import { Modalize, ScrollView, Animated } from 'react-native-modalize'
-import { Calendar, CalendarList, Agenda, LocaleConfig } from 'react-native-calendars'
-import AppointmentModel from './../../Models/Student/Appointment'
+import { Modalize } from 'react-native-modalize'
 import AsyncStorage from '@react-native-async-storage/async-storage';
-
+import {Calendar, LocaleConfig} from 'react-native-calendars';
 import styles from './components/styles'
 import Icon from 'react-native-vector-icons/MaterialIcons';
-import ExpandableCalendarScreen from './components/calendar'
+import dates from './../../Models/Doctor/dates'
+
 
 LogBox.ignoreAllLogs();
 
@@ -35,37 +34,65 @@ export default function Appointment({ navigation, previus }) {
 
     useEffect(() => {
         responseDoctor()
+        console.log(dates)
+
     }, [])
 
+    LocaleConfig.locales['br'] = {
+      monthNames: ['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'],
+      monthNamesShort: ['Jan.','Fev','Mar','Abr','Mai','Jun','Jul','Ago','Set','Out','Nov','Dez'],
+      dayNames: ['Domingo','Segunda','Terça','Quarta','Quinta','Sexta','Sabádo'],
+      dayNamesShort: ['Dom','Seg','Ter','Qua','Qui','Sex','Sab'],
+      today: 'Hoje'
+    };
+    LocaleConfig.defaultLocale = 'br';
 
-
-    const dados1 =[
-        {id:1, name:'Nuape'},
-        {id:2, name:'Conferencia online'},
-        {id:3, name:'Setor clinico UTFPR'},
+    const dados1 = [
+        { id: 1, name: 'Nuape' },
+        { id: 2, name: 'Conferencia online' },
+        { id: 3, name: 'Setor clinico UTFPR' },
     ]
 
-    const dados2 =[
-        {id:1, name:'Medico 1', specialty:'Dentista'},
-        {id:2, name:'Medico 1', specialty:'Pedagoga'},
-        {id:3, name:'Medico 1', specialty:'Psicóloga'},
+    const times =  [
+        { id: 1, time:'9:00', available: "Disponível" },
+        { id: 2, time:'10:00', available:"Disponível"  },
+        { id: 3, time:'11:00', available:"Indisponível" },
+        { id: 4, time:'14:00', available:"Indisponível" },
+        { id: 5, time:'15:00', available:"Disponível" },
+        { id: 6, time:'16:00', available:"Disponível"  },
+      
+        
     ]
 
     const [observations, setObservations] = useState()
 
-    const [doctorId, setDoctorId] = useState({ id: null})
+    const [doctorId, setDoctorId] = useState({ id: null })
 
     const doctorIdCallback = useCallback((itemId) => {
-        setDoctorId({ id: itemId})
+        setDoctorId({ id: itemId })
         console.log(doctorId)
     }, [doctorId])
 
-    const [localId, setLocalId] = useState({ id: null})
+    const [localId, setLocalId] = useState({ id: null })
 
     const localIdCallback = useCallback((itemId, name) => {
-        setLocalId({ id: itemId, place: name})
+        setLocalId({ id: itemId, place: name })
         console.log(localId)
     }, [localId])
+
+    const [date, setDate] = useState({ date: null })
+
+    const [time, setTime] = useState({ time: null })
+
+    const dateCallback = useCallback((date) => {
+        setDate({ date: date})
+        console.log(date)
+    }, [date])
+
+    const timeCallback = useCallback((time) => {
+        setTime({ time: time})
+        console.log(time)
+    }, [time])
 
 
 
@@ -99,17 +126,24 @@ export default function Appointment({ navigation, previus }) {
         modalizeLocalRef.current?.close()
     }
 
+    function availableOrNot(available){
+        if(available == "Disponível"){
+            return '#90ee02'
+        }else{
+            return "#e54304"
+        }
+    } 
+
 
     function Person({ name, specialty, itemId }) {
         return (
             <TouchableOpacity onPress={() => {
-                 doctorIdCallback(itemId)
+                doctorIdCallback(itemId)
                 onClose1()
             }}>
                 <View style={{ flexDirection: 'column' }}>
                     <Text style={styles.textFlatlistRow}>{specialty}</Text>
                     <Text style={styles.subTextFlatlistRow}>{name}</Text>
-             
 
                 </View>
                 <Divider style={{ backgroundColor: '#c2c6ca', marginTop: 20 }} />
@@ -139,25 +173,94 @@ export default function Appointment({ navigation, previus }) {
                         >
                         </FlatList>
                     </View>
-
                 </View>
             </View>
         )
     }
 
+
+    function Schedules({ time, itemId, available }) {
+        return (
+            <TouchableOpacity onPress={() => {
+               {available == "Disponível" ? (
+                    timeCallback(time),
+                    onClose2()
+               ): (
+                Alert.alert(
+                    "Atenção!",
+                    "Esse horário não está disponível.",
+                    [
+                      {
+                        text: "Ok",
+                        onPress: () => console.log("Cancel Pressed"),
+                        style: "Ok"
+                      },
+                    ]
+                  )
+              
+               )}
+
+            }}>
+                <View style={{ flexDirection: 'row', justifyContent:'space-between', alignItems:'center' }}>
+                    <View style={{flexDirection:'column', flex:2}}> 
+                        <Text style={styles.textFlatlistRow}>{time}</Text>
+                        <Text style={styles.subTextFlatlistRow}>Duração: 1 hora</Text>
+                    </View>
+                    <View style={{flex:1,  alignItems:'center', marginRight:10, height:'60%', backgroundColor: availableOrNot(available)}}>
+                        <Text style={styles.textFlatlistRowAvailable}>{available}</Text>
+                    </View>     
+                </View>
+                <Divider style={{ backgroundColor: '#c2c6ca', marginTop: 20 }} />
+            </TouchableOpacity>
+        )
+    }
+
     function ModalizeCalendar() {
         return (
-            <View>
-               <ExpandableCalendarScreen />
+            <View style={{ flex: 1 }}>
+                <View style={{backgroundColor:"#d602ee"}}>
+                <Calendar
+                    minDate={'2012-05-10'}
+                    onDayPress={(day) => { dateCallback(day.dateString)}}
+                    monthFormat={'MMMM '}
+                    firstDay={1}
+                    hideDayNames={false}
+                    showWeekNumbers={true}
+                    enableSwipeMonths={true}
+                    onPressArrowLeft={subtractMonth => subtractMonth()}
+                    markingType={'period'}
+                    markedDates={dates}
+                >
+                </Calendar>
+                </View>
+                <View>
+                <Text style={{
+                        marginTop: 40,
+                        marginLeft: 20,
+                        fontSize: 23,
+                        fontFamily: 'sans-serif',
+                        color: '#3d3935',
+                        fontWeight: 'bold'
+                    }}>Selecione o horário:</Text>
+                    <View>
+                        <FlatList
+                            style={{ marginTop: 40 }}
+                            data={times}
+                            keyExtractor={(item) => item.id}
+                            renderItem={({ item }) =>
+                                <Schedules time={item.time} itemId={item.id} available={item.available}/>}
+                        >
+                        </FlatList>
+                </View>
+            </View>
             </View>
         )
     }
 
-
     function Local({ local, id }) {
         return (
             <TouchableOpacity onPress={() => {
-               localIdCallback(id, local)
+                localIdCallback(id, local)
                 onClose3()
             }}>
                 <View style={{ flexDirection: 'row' }}>
@@ -186,7 +289,7 @@ export default function Appointment({ navigation, previus }) {
                             data={dados1}
                             keyExtractor={(item) => item.id}
                             renderItem={({ item }) =>
-                                <Local local={item.name} id={item.id}  />}
+                                <Local local={item.name} id={item.id} />}
                         >
                         </FlatList>
                     </View>
@@ -198,51 +301,49 @@ export default function Appointment({ navigation, previus }) {
 
     const [doctorList, setDoctorList] = useState(null)
 
-   async function responseDoctor(){
+    async function responseDoctor() {
         axios.get(`http://10.0.2.2:3000/doctor`,)
-        .then(function (response) {
-          console.log(response.data.data);
-          setDoctorList({ doctorList: response.data.data })
-        })
-        .catch(function (error) {
-          console.log(error);
-        })
-        .then(function () {
-        });
+            .then(function (response) {
+                console.log(response.data.data);
+                setDoctorList({ doctorList: response.data.data })
+            })
+            .catch(function (error) {
+                console.log(error);
+            })
+            .then(function () {
+            });
     }
 
     async function createAppointment() {
-        var date = await AsyncStorage.getItem('@UtfApi:date');
-        var time = await AsyncStorage.getItem('@UtfApi:time');
-            
-        axios.post(`http://10.0.2.2:3000/appointment`,{
-            "Student_idStudent": 32,
+        var id = await AsyncStorage.getItem('@UtfApi:idStudent');
+        axios.post(`http://10.0.2.2:3000/appointment`, {
+            "Student_idStudent": id,
             "Doctor_idDoctor": doctorId.id,
-            "date": date,
-            "time": time,
+            "date": date.date,
+            "time": time.time,
             "place": localId.place,
             "observations": observations
         })
-        .then(function (response) {
-          console.log(response.data);
-          createSuccessAlert()
-        })
-        .catch(function (error) {
-          console.log(error);
-        })
-        .then(function () {
-        });
-       
-      }
+            .then(function (response) {
+                console.log(response.data);
+                createSuccessAlert()
+            })
+            .catch(function (error) {
+                console.log(error);
+            })
+            .then(function () {
+            });
 
-      const createSuccessAlert = () =>
-      Alert.alert(
-          "Parabéns!",
-          "Sua consulta foi marcada com sucesso.",
-          [
-              { text: "Ok", onPress: () => navigation.navigate('Home')}
-          ]
-      )
+    }
+
+    const createSuccessAlert = () =>
+        Alert.alert(
+            "Parabéns!",
+            "Sua consulta foi marcada com sucesso.",
+            [
+                { text: "Ok", onPress: () => navigation.navigate('Home') }
+            ]
+        )
 
 
     return (
@@ -287,9 +388,9 @@ export default function Appointment({ navigation, previus }) {
                                 <FAB
                                     style={styles.buttonNewAcc}
                                     label="Cancelar"
-                                   // onPress={navigation.goBack}
-                                   onPress={() => console.log(doctorId.id)}
-                                   
+                                    // onPress={navigation.goBack}
+                                    onPress={() => console.log(doctorId.id)}
+
                                 />
                                 <FAB
                                     style={styles.buttonNewAcc}
@@ -308,8 +409,8 @@ export default function Appointment({ navigation, previus }) {
 
                         <Modalize
                             ref={modalizeCalendarRef}
-                            snapPoint={'600'}
-                            modalHeight={600}
+                            snapPoint={'650'}
+                            modalHeight={700}
                         >
                             <ModalizeCalendar />
                         </Modalize>

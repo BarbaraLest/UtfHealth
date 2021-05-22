@@ -62,6 +62,15 @@ export default {
     marginTop:10
 
   },
+  
+  textFlatlistRowAvailable:{
+    fontSize: 20,
+    color: '#ffff',
+    fontFamily: 'sans-serif',
+   // marginLeft:20,
+   // marginTop:10
+
+  },
   subTextFlatlistRow:{
     fontSize: 17,
     color: '#ffcbaf',

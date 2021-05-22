@@ -66,6 +66,42 @@ export default function Rotas() {
     }
   };
 
+
+
+  const setId = async (idStudent) => {
+    try {
+      await AsyncStorage.setItem(
+        '@UtfApi:idStudent',
+        JSON.stringify(idStudent),
+      );
+      console.log(idStudent)
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  const setRegister = async (register) => {
+    try {
+      await AsyncStorage.setItem(
+        '@UtfApi:register',
+        register,
+      );
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  const setName = async (name) => {
+    try {
+      await AsyncStorage.setItem(
+        '@UtfApi:name',
+        name,
+      );
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
   const authContext = React.useMemo(
     () => ({
       signIn: async (userName, password) => {
@@ -76,6 +112,9 @@ export default function Rotas() {
           .then(function (response) {
               console.log(response.data)
               dispatch({ type: 'LOGIN', id: userName, token: response.data.token });
+              setId(response.data.idStudent)
+              setName(response.data.name)
+              setRegister(response.data.register)
           })
           .catch(function (error) {
             console.log(error);
