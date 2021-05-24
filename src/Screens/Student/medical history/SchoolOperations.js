@@ -34,7 +34,7 @@ export default function SchoolOperations({ navigation, previus }) {
 
     async function createSchoolHistory() {
         var id = await AsyncStorage.getItem('@UtfApi:idStudent');
-        axios.post(`http://10.0.2.2:3000/dentalHistory`, {
+        axios.post(`http://10.0.2.2:3000/schoolHistory`, {
             "idStudent": id,
             "schedules": school.schedules,
             "routine": school.routine,

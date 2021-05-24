@@ -14,6 +14,7 @@ import axios from 'axios'
 
 export default function School({ navigation }) {
 
+
     useEffect(() => {
         getStudent()
     }, []);
@@ -31,9 +32,15 @@ export default function School({ navigation }) {
         var id = await AsyncStorage.getItem('@UtfApi:idStudent');
         axios.get(`http://10.0.2.2:3000/schoolHistory/emptyOrNot/${id}`)
             .then(function (response) {
-                console.log(response.data);
-                emptyCallback(response.data)
-                //createSuccessAlert()
+               console.log(response.data)
+
+                if (JSON.stringify(response.data.data) === '[]') {
+                    console.log('Objeto está vazio');
+
+                  }else{
+                    console.log('Objeto não vazio');
+                    emptyCallback(response.data)
+                  }
             })
             .catch(function (error) {
                 console.log(error);
@@ -118,8 +125,7 @@ export default function School({ navigation }) {
             </PaperProvider>
         )
     }
-
-    return empty.data ? <ScreenNotEmpty /> : <ScreenEmpty />;
+    return empty.data == null ? <ScreenEmpty /> : <ScreenNotEmpty />;
 
 
 }

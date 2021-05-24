@@ -15,14 +15,15 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios'
 
 export default function Clinical({ navigation }) {
-
+  
 
     useEffect(() => {
         getStudent()
+
     }, []);
 
 
-    const [empty, setEmpty] = useState({ data: null })
+    const [empty, setEmpty] = useState({data:null})
 
     const emptyCallback = useCallback((data) => {
         setEmpty(data)
@@ -31,11 +32,20 @@ export default function Clinical({ navigation }) {
 
     async function getStudent() {
         var id = await AsyncStorage.getItem('@UtfApi:idStudent');
+        console.log(id)
         axios.get(`http://10.0.2.2:3000/clinicalHistory/emptyOrNot/${id}`)
             .then(function (response) {
                 console.log(response.data);
-                emptyCallback(response.data)
-                //createSuccessAlert()
+
+                if (JSON.stringify(response.data.data) === '[]') {
+                    console.log('Objeto está vazio');
+
+                  }else{
+                    console.log('Objeto não vazio');
+                    emptyCallback(response.data)
+                  }
+                  
+               
             })
             .catch(function (error) {
                 console.log(error);

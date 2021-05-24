@@ -19,7 +19,6 @@ export default function Psychological({ navigation }) {
 
     useEffect(() => {
         getStudent()
-
     }, []);
 
 
@@ -33,9 +32,15 @@ export default function Psychological({ navigation }) {
         var id = await AsyncStorage.getItem('@UtfApi:idStudent');
         axios.get(`http://10.0.2.2:3000/psychologicalHistory/emptyOrNot/${id}`)
             .then(function (response) {
-                console.log(response.data);
-                emptyCallback(response.data)
-                //createSuccessAlert()
+                console.log(response.data.data);
+
+                if (JSON.stringify(response.data.data) === '[]') {
+                    console.log('Objeto está vazio');
+
+                  }else{
+                    console.log('Objeto não vazio');
+                    emptyCallback(response.data)
+                  }
             })
             .catch(function (error) {
                 console.log(error);
@@ -119,7 +124,7 @@ export default function Psychological({ navigation }) {
         )
     }
 
-    return empty.data ? <ScreenNotEmpty /> : <ScreenEmpty />;
+    return empty.data == null ? <ScreenEmpty /> : <ScreenNotEmpty />;
 
 
 }

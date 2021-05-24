@@ -11,8 +11,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import StackScreen from './StackScreens'
 import Login from './../Screens/Auth/Login'
 import NewAccount from './../Screens/Auth/NewAccount'
-import AlertModal from './../Models/Auth/Alert'
-import LoginModel from './../Models/Auth/Login'
+
 
 
 const Stack = createStackNavigator();
@@ -80,6 +79,51 @@ export default function Rotas() {
     }
   };
 
+  const setC = async () => {
+    try {
+      await AsyncStorage.setItem(
+        'alreadyRegisterClinical',
+        ' ',
+      );
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  const setP= async () => {
+    try {
+      await AsyncStorage.setItem(
+        'alreadyRegisterPsycho',
+        ' ',
+      );
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  const setS = async () => {
+    try {
+      await AsyncStorage.setItem(
+        'alreadyRegisterSchool',
+        ' ',
+      );
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  const setD = async () => {
+    try {
+      await AsyncStorage.setItem(
+        'alreadyRegisterDental',
+        ' ',
+      );
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+
   const setRegister = async (register) => {
     try {
       await AsyncStorage.setItem(
@@ -127,6 +171,10 @@ export default function Rotas() {
               setName(response.data.name)
               setRegister(response.data.register)
               setEmail(response.data.email)
+              setC()
+              setP()
+              setS()
+              setD()
           })
           .catch(function (error) {
             console.log(error);
@@ -159,11 +207,7 @@ export default function Rotas() {
               options={{ headerShown: false }}
               component={NewAccount}
             />
-            <Stack.Screen
-              name="NewAccountModel"
-              options={{ headerShown: false }}
-              component={AlertModal}
-            />
+      
           </Stack.Navigator>
 
         ) : (

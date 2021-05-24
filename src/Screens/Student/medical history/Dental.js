@@ -15,27 +15,34 @@ import axios from 'axios'
 
 export default function Dental({ navigation }) {
 
+  
     useEffect(() => {
         getStudent()
 
     }, []);
 
 
-    const [empty, setEmpty] = useState({ data: null })
+    const [empty, setEmpty] = useState({data: null})
 
     const emptyCallback = useCallback((data) => {
         setEmpty(data)
+        console.log(empty)
     }, [empty])
-
 
 
     async function getStudent() {
         var id = await AsyncStorage.getItem('@UtfApi:idStudent');
         axios.get(`http://10.0.2.2:3000/dentalHistory/emptyOrNot/${id}`)
             .then(function (response) {
-                console.log(response.data);
-                emptyCallback(response.data)
-                //createSuccessAlert()
+
+              
+                if (JSON.stringify(response.data.data) === '[]') {
+                    console.log('Objeto está vazio');
+
+                  }else{
+                    console.log('Objeto não vazio');
+                    emptyCallback(response.data)
+                  }
             })
             .catch(function (error) {
                 console.log(error);
@@ -120,7 +127,7 @@ export default function Dental({ navigation }) {
         )
     }
 
-    return empty.data ? <ScreenNotEmpty /> : <ScreenEmpty />;
+    return empty.data == null ? <ScreenEmpty /> : <ScreenNotEmpty />;
 
 
 }
