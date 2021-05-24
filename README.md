@@ -2,7 +2,7 @@
 
 ## Aplicativo mobile para agendamento de consultas e criação de históricos médicos.
 
-Este é o Utfhealth, um app legalzinho feito como projeto final da disciplina de Tecnologia em Desenvolvimento de Sistemas da Universidade Tecnológica Federal do Paraná. 
+Este é o UtfHealth, um app legalzinho feito como projeto final da disciplina de Tecnologia em Desenvolvimento de Sistemas da Universidade Tecnológica Federal do Paraná. 
 
 O aplicativo visa o agendamentos rápidos e práticos de consultas para o setor médico e assistencial da universidade, e a criação de históricos médicos dos usuários. 
 
