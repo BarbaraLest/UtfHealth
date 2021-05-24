@@ -21,7 +21,7 @@ import {
 import axios from 'axios'
 import { Modalize } from 'react-native-modalize'
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {Calendar, LocaleConfig} from 'react-native-calendars';
+import { Calendar, LocaleConfig } from 'react-native-calendars';
 import styles from './components/styles'
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import dates from './../../Models/Doctor/dates'
@@ -39,11 +39,11 @@ export default function Appointment({ navigation, previus }) {
     }, [])
 
     LocaleConfig.locales['br'] = {
-      monthNames: ['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'],
-      monthNamesShort: ['Jan.','Fev','Mar','Abr','Mai','Jun','Jul','Ago','Set','Out','Nov','Dez'],
-      dayNames: ['Domingo','Segunda','Terça','Quarta','Quinta','Sexta','Sabádo'],
-      dayNamesShort: ['Dom','Seg','Ter','Qua','Qui','Sex','Sab'],
-      today: 'Hoje'
+        monthNames: ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'],
+        monthNamesShort: ['Jan.', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'],
+        dayNames: ['Domingo', 'Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sabádo'],
+        dayNamesShort: ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sab'],
+        today: 'Hoje'
     };
     LocaleConfig.defaultLocale = 'br';
 
@@ -53,15 +53,15 @@ export default function Appointment({ navigation, previus }) {
         { id: 3, name: 'Setor clinico UTFPR' },
     ]
 
-    const times =  [
-        { id: 1, time:'9:00', available: "Disponível" },
-        { id: 2, time:'10:00', available:"Disponível"  },
-        { id: 3, time:'11:00', available:"Indisponível" },
-        { id: 4, time:'14:00', available:"Indisponível" },
-        { id: 5, time:'15:00', available:"Disponível" },
-        { id: 6, time:'16:00', available:"Disponível"  },
-      
-        
+    const times = [
+        { id: 1, time: '9:00', available: "Disponível" },
+        { id: 2, time: '10:00', available: "Disponível" },
+        { id: 3, time: '11:00', available: "Indisponível" },
+        { id: 4, time: '14:00', available: "Indisponível" },
+        { id: 5, time: '15:00', available: "Disponível" },
+        { id: 6, time: '16:00', available: "Disponível" },
+
+
     ]
 
     const [observations, setObservations] = useState()
@@ -85,12 +85,12 @@ export default function Appointment({ navigation, previus }) {
     const [time, setTime] = useState({ time: null })
 
     const dateCallback = useCallback((date) => {
-        setDate({ date: date})
+        setDate({ date: date })
         console.log(date)
     }, [date])
 
     const timeCallback = useCallback((time) => {
-        setTime({ time: time})
+        setTime({ time: time })
         console.log(time)
     }, [time])
 
@@ -126,13 +126,13 @@ export default function Appointment({ navigation, previus }) {
         modalizeLocalRef.current?.close()
     }
 
-    function availableOrNot(available){
-        if(available == "Disponível"){
+    function availableOrNot(available) {
+        if (available == "Disponível") {
             return '#90ee02'
-        }else{
+        } else {
             return "#e54304"
         }
-    } 
+    }
 
 
     function Person({ name, specialty, itemId }) {
@@ -182,33 +182,35 @@ export default function Appointment({ navigation, previus }) {
     function Schedules({ time, itemId, available }) {
         return (
             <TouchableOpacity onPress={() => {
-               {available == "Disponível" ? (
-                    timeCallback(time),
-                    onClose2()
-               ): (
-                Alert.alert(
-                    "Atenção!",
-                    "Esse horário não está disponível.",
-                    [
-                      {
-                        text: "Ok",
-                        onPress: () => console.log("Cancel Pressed"),
-                        style: "Ok"
-                      },
-                    ]
-                  )
-              
-               )}
+                {
+                    available == "Disponível" ? (
+                        timeCallback(time),
+                        onClose2()
+                    ) : (
+                        Alert.alert(
+                            "Atenção!",
+                            "Esse horário não está disponível.",
+                            [
+                                {
+                                    text: "Ok",
+                                    onPress: () => console.log("Cancel Pressed"),
+                                    style: "Ok"
+                                },
+                            ]
+                        )
+
+                    )
+                }
 
             }}>
-                <View style={{ flexDirection: 'row', justifyContent:'space-between', alignItems:'center' }}>
-                    <View style={{flexDirection:'column', flex:2}}> 
+                <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
+                    <View style={{ flexDirection: 'column', flex: 2 }}>
                         <Text style={styles.textFlatlistRow}>{time}</Text>
                         <Text style={styles.subTextFlatlistRow}>Duração: 1 hora</Text>
                     </View>
-                    <View style={{flex:1,  alignItems:'center', marginRight:10, height:'60%', backgroundColor: availableOrNot(available)}}>
+                    <View style={{ flex: 1, alignItems: 'center', marginRight: 10, height: '60%', backgroundColor: availableOrNot(available) }}>
                         <Text style={styles.textFlatlistRowAvailable}>{available}</Text>
-                    </View>     
+                    </View>
                 </View>
                 <Divider style={{ backgroundColor: '#c2c6ca', marginTop: 20 }} />
             </TouchableOpacity>
@@ -218,23 +220,23 @@ export default function Appointment({ navigation, previus }) {
     function ModalizeCalendar() {
         return (
             <View style={{ flex: 1 }}>
-                <View style={{backgroundColor:"#d602ee"}}>
-                <Calendar
-                    minDate={'2012-05-10'}
-                    onDayPress={(day) => { dateCallback(day.dateString)}}
-                    monthFormat={'MMMM '}
-                    firstDay={1}
-                    hideDayNames={false}
-                    showWeekNumbers={true}
-                    enableSwipeMonths={true}
-                    onPressArrowLeft={subtractMonth => subtractMonth()}
-                    markingType={'period'}
-                    markedDates={dates}
-                >
-                </Calendar>
+                <View style={{ backgroundColor: "#d602ee" }}>
+                    <Calendar
+                        minDate={'2012-05-10'}
+                        onDayPress={(day) => { dateCallback(day.dateString) }}
+                        monthFormat={'MMMM '}
+                        firstDay={1}
+                        hideDayNames={false}
+                        showWeekNumbers={true}
+                        enableSwipeMonths={true}
+                        onPressArrowLeft={subtractMonth => subtractMonth()}
+                        markingType={'period'}
+                        markedDates={dates}
+                    >
+                    </Calendar>
                 </View>
                 <View>
-                <Text style={{
+                    <Text style={{
                         marginTop: 40,
                         marginLeft: 20,
                         fontSize: 23,
@@ -248,11 +250,11 @@ export default function Appointment({ navigation, previus }) {
                             data={times}
                             keyExtractor={(item) => item.id}
                             renderItem={({ item }) =>
-                                <Schedules time={item.time} itemId={item.id} available={item.available}/>}
+                                <Schedules time={item.time} itemId={item.id} available={item.available} />}
                         >
                         </FlatList>
+                    </View>
                 </View>
-            </View>
             </View>
         )
     }
@@ -329,6 +331,7 @@ export default function Appointment({ navigation, previus }) {
                 createSuccessAlert()
             })
             .catch(function (error) {
+                createUnsuccessAlert()
                 console.log(error);
             })
             .then(function () {
@@ -340,6 +343,15 @@ export default function Appointment({ navigation, previus }) {
         Alert.alert(
             "Parabéns!",
             "Sua consulta foi marcada com sucesso.",
+            [
+                { text: "Ok", onPress: () => navigation.navigate('Home') }
+            ]
+        )
+
+    const createUnsuccessAlert = () =>
+        Alert.alert(
+            "Ops!",
+            "Não foi possível marcar a sua consulta. Verifique suas informações e tente novamente.",
             [
                 { text: "Ok", onPress: () => navigation.navigate('Home') }
             ]

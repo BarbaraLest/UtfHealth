@@ -1,3 +1,4 @@
+
 import { DefaultTheme } from 'react-native-paper'
 
 
@@ -24,11 +25,11 @@ export default {
     marginTop: 20
 
   },
-  buttonFab: {
+  buttonFab:{
     position: 'absolute',
     margin: 16,
     right: 150,
-    bottom: 300,
+    bottom:300,
   },
 
   componentsView: {
@@ -47,70 +48,20 @@ export default {
     alignSelf: 'center',
   },
 
-  flatlistRow: {
-    flexDirection: 'row',
-    backgroundColor: "transparent",
-    justifyContent: 'space-between',
-    alignItems: 'center'
+  flatlistRow:{ 
+    flexDirection: 'row', 
+    backgroundColor:"transparent", 
+    justifyContent:'space-between', 
+    alignItems:'center' 
   },
 
-  textFlatlistRow: {
-    fontSize: 20,
-    color: '#ef3340',
-    fontFamily: 'sans-serif',
-    marginLeft: 20,
-    marginTop: 10
-
+  fab: {
+    position: 'absolute',
+    margin: 16,
+    right: 0,
+    bottom: 0,
   },
 
-  textTitle: {
-    fontSize: 30,
-    color: '#ef3340',
-    fontFamily: 'sans-serif',
-    marginTop: 50,
-    alignSelf: 'center',
-    marginBottom: 20
-
-  },
-
-  textFlatlistRowAvailable: {
-    fontSize: 20,
-    color: '#ffff',
-    fontFamily: 'sans-serif',
-    // marginLeft:20,
-    // marginTop:10
-
-  },
-  subTextFlatlistRow: {
-    fontSize: 17,
-    color: '#ffcbaf',
-    fontFamily: 'sans-serif',
-    marginLeft: 20,
-    marginTop: 10
-
-  },
-  subTextFlatlistRowBlack: {
-    fontSize: 17,
-    color: '#404040',
-    fontFamily: 'sans-serif',
-    marginLeft: 20,
-    marginTop: 10
-
-  },
-
-  textDentalOperations: {
-    fontSize: 20,
-    color: '#404040',
-    fontFamily: 'sans-serif',
-    marginLeft: 20
-  },
-
-  textTouchableOpacity: {
-    fontSize: 20,
-    fontFamily: 'sans-serif',
-    color: '#404040',
-    marginLeft: 20
-  },
 
   textError: {
     fontSize: 15,

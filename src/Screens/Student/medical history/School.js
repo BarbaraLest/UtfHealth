@@ -1,20 +1,60 @@
-import * as React from 'react';
-import { Text, View, TouchableOpacity, ScrollView } from 'react-native';
+import React, { useState, useCallback, useEffect } from 'react';
+import { Text, View, TouchableOpacity, FlatList } from 'react-native';
 import {
     FAB,
     Appbar,
-    TextInput,
-    DefaultTheme,
     Divider,
     Provider as PaperProvider
 } from 'react-native-paper';
 import styles from './../components/styles'
-import Icon from 'react-native-vector-icons/MaterialIcons';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import axios from 'axios'
+
 
 
 export default function School({ navigation }) {
 
-    const isEmpty = true
+    useEffect(() => {
+        getStudent()
+    }, []);
+
+
+    const [empty, setEmpty] = useState({ data: null })
+
+    const emptyCallback = useCallback((data) => {
+        setEmpty(data)
+    }, [empty])
+
+
+
+    async function getStudent() {
+        var id = await AsyncStorage.getItem('@UtfApi:idStudent');
+        axios.get(`http://10.0.2.2:3000/schoolHistory/emptyOrNot/${id}`)
+            .then(function (response) {
+                console.log(response.data);
+                emptyCallback(response.data)
+                //createSuccessAlert()
+            })
+            .catch(function (error) {
+                console.log(error);
+            })
+
+    }
+
+    function History({ observation, schedules, routine, pedagogicalSupport }) {
+        return (
+            <TouchableOpacity>
+                <View style={{ flexDirection: 'column' }}>
+                    <Text style={styles.subTextFlatlistRowBlack}>{schedules}</Text>
+                    <Text style={styles.subTextFlatlistRowBlack}>{routine}</Text>
+                    <Text style={styles.subTextFlatlistRowBlack}>{pedagogicalSupport}</Text>
+                    <Text style={styles.subTextFlatlistRowBlack}>{observation}</Text>
+                </View>
+                <Divider style={{ backgroundColor: '#c2c6ca', marginTop: 20 }} />
+            </TouchableOpacity>
+        )
+    }
+
 
     function ScreenNotEmpty() {
         return (
@@ -29,97 +69,17 @@ export default function School({ navigation }) {
                         <View style={{ flex: 1, justifyContent: 'flex-start' }}>
                             <Text style={{ fontSize: 25, color: '#c85b53', fontFamily: 'sans-serif', alignSelf: 'center', marginTop: 30 }}>Organização Pedagógica</Text>
                             <Divider />
-                        </View>
-                        <View style={{ flex: 5, justifyContent: 'space-around' }}>
-                            <Text
-                                style={{
-                                    fontSize: 15,
-                                    fontFamily: 'sans-serif',
-                                    color: '#9b9b9b',
+                            <FlatList
+                                style={{ marginTop: 40 }}
+                                data={empty.data}
+                                keyExtractor={(item) => item.id}
+                                renderItem={({ item }) =>
+                                    <History observation={item.observation} schedules={item.schedules} routine={item.routine} pedagogicalSupport={item.pedagogicalSupport}
+                                    />}
+                            >
+                            </FlatList>
 
 
-                                }}>
-                                {' '}
-                   "INFO"
-                  </Text>
-
-                            <Text
-                                style={{
-                                    fontSize: 17,
-                                    fontFamily: 'sans-serif',
-                                    //   marginBottom: 5,
-                                }}>
-                                {' '}
-                    "INFO"
-                  </Text>
-
-                            <Divider />
-                            <Text
-                                style={{
-                                    fontSize: 15,
-                                    fontFamily: 'sans-serif',
-                                    color: '#9b9b9b',
-
-                                }}>
-                                {' '}
-                    "INFO"
-                  </Text>
-
-                            <Text
-                                style={{
-                                    fontSize: 17,
-                                    fontFamily: 'sans-serif',
-                                    //  marginBottom: 5,
-                                }}>
-                                {' '}
-                    "INFO"
-                  </Text>
-
-                            <Divider />
-                            <Text
-                                style={{
-                                    fontSize: 15,
-                                    fontFamily: 'sans-serif',
-                                    color: '#9b9b9b',
-
-                                }}>
-                                {' '}
-                    "INFO"
-                  </Text>
-
-                            <Text
-                                style={{
-                                    fontSize: 17,
-                                    fontFamily: 'sans-serif',
-                                    //  marginBottom: 5,
-                                }}>
-                                "INFO"
-                  </Text>
-
-                            <Divider />
-                            <Text
-                                style={{
-                                    fontSize: 15,
-                                    fontFamily: 'sans-serif',
-                                    color: '#9b9b9b',
-
-                                }}>
-                                {' '}
-                    "INFO"
-                  </Text>
-
-                            <Text
-                                style={{
-                                    fontSize: 17,
-                                    fontFamily: 'sans-serif',
-                                    //   marginBottom: 5,
-                                }}>
-                                {' '}
-                    "INFO"
-                    </Text>
-
-                        </View>
-                        <View style={{ flex: 2 }}>
                         </View>
                     </View>
 
@@ -159,7 +119,7 @@ export default function School({ navigation }) {
         )
     }
 
-    return isEmpty == 'true' ? <ScreenNotEmpty /> : <ScreenEmpty />;
+    return empty.data ? <ScreenNotEmpty /> : <ScreenEmpty />;
 
 
 }

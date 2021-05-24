@@ -5,7 +5,7 @@ import {
     TouchableOpacity,
     TouchableWithoutFeedback,
     Keyboard,
-    FlatList
+    Alert
 } from 'react-native'
 import {
     Appbar,
@@ -40,15 +40,24 @@ export default function ClinicalOperations({ navigation, previus }) {
 
     }
 
-    async function createAppointment() {
+
+
+    const [observations, setObservations] = useState(" ")
+
+    async function createClinicalHistory() {
         var id = await AsyncStorage.getItem('@UtfApi:idStudent');
-        axios.post(`http://10.0.2.2:3000/appointment`, {
-            "Student_idStudent": id,
-            "Doctor_idDoctor": doctorId.id,
-            "date": date.date,
-            "time": time.time,
-            "place": localId.place,
-            "observations": observations
+        axios.post(`http://10.0.2.2:3000/clinicalHistory`, {
+            "idStudent": id,
+            "allergy1": allergy.allergy1,
+            "allergy2": allergy.allergy2,
+            "allergy3": allergy.allergy3,
+            "chronicDisease1": chronicDisease.chronicDisease1,
+            "chronicDisease2": chronicDisease.chronicDisease2,
+            "chronicDisease3": chronicDisease.chronicDisease3,
+            "familyDisease1": familyDisease.familyDisease1,
+            "familyDisease2": familyDisease.familyDisease2,
+            "familyDisease3": familyDisease.familyDisease3,
+            "observation": observations,
         })
             .then(function (response) {
                 console.log(response.data);
@@ -56,15 +65,36 @@ export default function ClinicalOperations({ navigation, previus }) {
             })
             .catch(function (error) {
                 console.log(error);
+                createUnsuccessAlert()
             })
-            .then(function () {
-            });
 
     }
 
+    const createSuccessAlert = () =>
+        Alert.alert(
+            "Parabéns!",
+            "Seu histórico clínico foi criado com sucesso.",
+            [
+                { text: "Ok", onPress: () => navigation.navigate('Home') }
+            ]
+        )
+
+    const createUnsuccessAlert = () =>
+        Alert.alert(
+            "Ops!",
+            "Não criar seu histórico. Verifique suas informações e tente novamente.",
+            [
+                { text: "Ok", onPress: () => navigation.navigate('Home') }
+            ]
+        )
+
     /////////////////////////////////////allergy
 
-    const [allergy, setAllergy] = useState([])
+    const [allergy, setAllergy] = useState({
+        allergy1: "Não possuo alergia a frutos do mar",
+        allergy2: "Não possuo alergia a animais",
+        allergy3: "Não possuo a amendoim",
+    })
 
     const modalizeAllergyRef = useRef(null)
 
@@ -96,10 +126,24 @@ export default function ClinicalOperations({ navigation, previus }) {
     }, [checkedAllergy3])
 
     const allergyIdCallback = useCallback((allergyType, id) => {
-        setAllergy([
-            ...allergy,
-            { id: id, name: allergyType }
-        ])
+        if (id == 1) {
+            setAllergy({
+                ...allergy,
+                allergy1: `Possuo alergia a ${allergyType}`
+            })
+        }
+        if (id == 2) {
+            setAllergy({
+                ...allergy,
+                allergy2: `Possuo alergia a ${allergyType}`
+            })
+        }
+        if (id == 3) {
+            setAllergy({
+                ...allergy,
+                allergy3: `Possuo alergia a ${allergyType}`
+            })
+        }
 
     }, [allergy])
 
@@ -156,7 +200,11 @@ export default function ClinicalOperations({ navigation, previus }) {
 
     ///////////////////////////////chronic disease
 
-    const [chronicDisease, setChronicDisease] = useState([])
+    const [chronicDisease, setChronicDisease] = useState({
+        chronicDisease1: "Não possuo pressão alta",
+        chronicDisease2: "Não possuo diabetes",
+        chronicDisease3: "Não possuo rinite",
+    })
 
     const modalizeChronicDiseaseRef = useRef(null)
 
@@ -187,10 +235,24 @@ export default function ClinicalOperations({ navigation, previus }) {
     }, [checkedChronicDisease3])
 
     const chronicDiseaseIdCallback = useCallback((chronicDiseaseType, id) => {
-        setChronicDisease([
-            ...chronicDisease,
-            { id: id, name: chronicDiseaseType}
-        ])
+        if (id == 1) {
+            setChronicDisease({
+                ...chronicDisease,
+                chronicDisease1: `Possuo ${chronicDiseaseType}`
+            })
+        }
+        if (id == 2) {
+            setChronicDisease({
+                ...chronicDisease,
+                chronicDisease2: `Possuo ${chronicDiseaseType}`
+            })
+        }
+        if (id == 3) {
+            setChronicDisease({
+                ...chronicDisease,
+                chronicDisease3: `Possuo ${chronicDiseaseType}`
+            })
+        }
 
     }, [chronicDisease])
 
@@ -245,9 +307,13 @@ export default function ClinicalOperations({ navigation, previus }) {
         )
     }
 
-////////////////////////////////////////////////////family disease
+    ////////////////////////////////////////////////////family disease
 
-    const [familyDisease, setFamilyDisease] = useState([])
+    const [familyDisease, setFamilyDisease] = useState({
+        familyDisease1: "Não possuo familiar com histórico de cancêr",
+        familyDisease2: "Não possuo familiar com pressão alta",
+        familyDisease3: "Não possuo familiar com alzheimer",
+    })
 
     const modalizeFamilyDiseaseRef = useRef(null)
 
@@ -278,10 +344,24 @@ export default function ClinicalOperations({ navigation, previus }) {
     }, [checkedFamilyDisease3])
 
     const familyDiseaseIdCallback = useCallback((familyDiseaseType, id) => {
-        setFamilyDisease([
-            ...familyDisease,
-            { id: id, name: familyDiseaseType}
-        ])
+        if (id == 1) {
+            setFamilyDisease({
+                ...familyDisease,
+                familyDisease1: `Possuo familiar com ${familyDiseaseType}`
+            })
+        }
+        if (id == 2) {
+            setFamilyDisease({
+                ...familyDisease,
+                familyDisease2: `Possuo familiar com ${familyDiseaseType}`
+            })
+        }
+        if (id == 3) {
+            setFamilyDisease({
+                ...familyDisease,
+                familyDisease3: `Possuo familiar com ${familyDiseaseType}`
+            })
+        }
 
     }, [familyDisease])
 
@@ -341,8 +421,8 @@ export default function ClinicalOperations({ navigation, previus }) {
             <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
                 <View style={styles.background}>
                     <Appbar.Header style={{ backgroundColor: "#FF8A80" }}>
-                        <Appbar.BackAction onPress={navigation.goBack} color={'#404040'}/>
-                        <Appbar.Content title="Histórico clinico" color={'#404040'}/>
+                        <Appbar.BackAction onPress={navigation.goBack} color={'#404040'} />
+                        <Appbar.Content title="Histórico clinico" color={'#404040'} />
                     </Appbar.Header>
                     <View style={{ flex: 1 }}>
                         <View style={styles.componentsView}>
@@ -368,6 +448,8 @@ export default function ClinicalOperations({ navigation, previus }) {
                                     mode='flat'
                                     placeholderTextColor='#c85b53'
                                     style={styles.textInput}
+                                    value={observations}
+                                    onChangeText={observations => setObservations(observations)}
                                     underlineColor="#c85b53"
                                     left={<TextInput.Icon name="rename-box" color="#ffbdaf" />}
                                 />
@@ -381,7 +463,7 @@ export default function ClinicalOperations({ navigation, previus }) {
                                 <FAB
                                     style={styles.buttonNewAcc}
                                     label="Salvar"
-                                    onPress={() => console.log(chronicDisease[0].name)}
+                                    onPress={() => createClinicalHistory()}
                                 />
                             </View>
                         </View>

@@ -2,26 +2,74 @@ import React, { useState, useCallback } from 'react'
 import {
     View,
     Text,
-    TouchableOpacity,
     TouchableWithoutFeedback,
     Keyboard,
-    FlatList
+    Alert
 } from 'react-native'
 import {
     Appbar,
     TextInput,
     FAB,
-    Divider,
     Provider as PaperProvider,
-    DefaultTheme,
     RadioButton
 } from 'react-native-paper'
 import styles from './../components/styles'
-import Icon from 'react-native-vector-icons/MaterialIcons';
+import axios from 'axios'
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
+
 
 export default function DentalOperations({ navigation, previus }) {
 
-    const [dental, setDental] = useState([])
+
+    const [dental, setDental] = useState({
+        caries: "Nunca tive",
+        dentalAppliance: "Nunca usei",
+        canal: "Nunca fiz",
+        wisdomExtraction: "Não"
+    })
+
+    const [observations, setObservations] = useState(" ")
+
+    async function createDentalHistory() {
+        var id = await AsyncStorage.getItem('@UtfApi:idStudent');
+        axios.post(`http://10.0.2.2:3000/dentalHistory`, {
+            "idStudent": id,
+            "caries": dental.caries,
+            "dentalAppliance": dental.dentalAppliance,
+            "canal": dental.canal,
+            "wisdomExtraction": dental.wisdomExtraction,
+            "observation": observations
+        })
+            .then(function (response) {
+                console.log(response.data);
+                createSuccessAlert()
+            })
+            .catch(function (error) {
+                console.log(error);
+                createUnsuccessAlert()
+            })
+
+    }
+
+    const createSuccessAlert = () =>
+        Alert.alert(
+            "Parabéns!",
+            "Seu histórico odontológico foi criado com sucesso.",
+            [
+                { text: "Ok", onPress: () => navigation.navigate('Home') }
+            ]
+        )
+
+    const createUnsuccessAlert = () =>
+        Alert.alert(
+            "Ops!",
+            "Não criar seu histórico. Verifique suas informações e tente novamente.",
+            [
+                { text: "Ok", onPress: () => navigation.navigate('Home') }
+            ]
+        )
+
 
     const [checkedDental1, setCheckedDental1] = React.useState(false)
 
@@ -49,10 +97,30 @@ export default function DentalOperations({ navigation, previus }) {
 
 
     const dentalIdCallback = useCallback((dentalType, id) => {
-        setDental([
-            ...dental,
-            { id: id, name: dentalType }
-        ])
+        if (id == 1) {
+            setDental({
+                ...dental,
+                caries: dentalType
+            })
+        }
+        if (id == 2) {
+            setDental({
+                ...dental,
+                dentalAppliance: dentalType
+            })
+        }
+        if (id == 3) {
+            setDental({
+                ...dental,
+                canal: dentalType
+            })
+        }
+        if (id == 4) {
+            setDental({
+                ...dental,
+                wisdomExtraction: dentalType
+            })
+        }
     }, [dental])
 
     return (
@@ -70,8 +138,8 @@ export default function DentalOperations({ navigation, previus }) {
                                 <Text style={styles.textDentalOperations}> Você já teve caries? </Text>
                                 <RadioButton
                                     value="first"
-                                status={checkedDental1 ? 'checked' : 'unchecked'}
-                                onPress={() => { dental1Callback(), dentalIdCallback('Já teve carie', 1) }}
+                                    status={checkedDental1 ? 'checked' : 'unchecked'}
+                                    onPress={() => { dental1Callback(), dentalIdCallback('Já teve carie', 1) }}
                                 />
                             </View>
                             <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
@@ -104,6 +172,8 @@ export default function DentalOperations({ navigation, previus }) {
                                 placeholderTextColor='#c85b53'
                                 style={styles.textInput}
                                 underlineColor="#c85b53"
+                                value={observations}
+                                onChangeText={observations => setObservations(observations)}
                                 multiline={true}
                                 numberOfLines={4}
                                 dense={true}
@@ -119,7 +189,7 @@ export default function DentalOperations({ navigation, previus }) {
                             <FAB
                                 style={styles.buttonNewAcc}
                                 label="Salvar"
-                                onPress={() => console.log(dental)}
+                                onPress={() => createDentalHistory()}
                             />
                         </View>
                     </View>

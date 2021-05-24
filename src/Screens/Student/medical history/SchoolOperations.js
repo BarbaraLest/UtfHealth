@@ -5,7 +5,7 @@ import {
     TouchableOpacity,
     TouchableWithoutFeedback,
     Keyboard,
-    FlatList
+    Alert
 } from 'react-native'
 import {
     Appbar,
@@ -18,10 +18,57 @@ import {
 } from 'react-native-paper'
 import styles from './../components/styles'
 import Icon from 'react-native-vector-icons/MaterialIcons';
+import axios from 'axios'
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function SchoolOperations({ navigation, previus }) {
 
-    const [school, setSchool] = useState([])
+    const [school, setSchool] = useState({
+        schedules: "Não",
+        routine: "Não",
+        pedagogicalSupport: "Não"
+    })
+
+
+    const [observations, setObservations] = useState(" ")
+
+    async function createSchoolHistory() {
+        var id = await AsyncStorage.getItem('@UtfApi:idStudent');
+        axios.post(`http://10.0.2.2:3000/dentalHistory`, {
+            "idStudent": id,
+            "schedules": school.schedules,
+            "routine": school.routine,
+            "pedagogicalSupport": school.pedagogicalSupport,
+            "observation": observations
+        })
+            .then(function (response) {
+                console.log(response.data);
+                createSuccessAlert()
+            })
+            .catch(function (error) {
+                console.log(error);
+                createUnsuccessAlert()
+            })
+
+    }
+
+    const createSuccessAlert = () =>
+        Alert.alert(
+            "Parabéns!",
+            "Seu histórico pedagógico foi criado com sucesso.",
+            [
+                { text: "Ok", onPress: () => navigation.navigate('Home') }
+            ]
+        )
+
+    const createUnsuccessAlert = () =>
+        Alert.alert(
+            "Ops!",
+            "Não criar seu histórico. Verifique suas informações e tente novamente.",
+            [
+                { text: "Ok", onPress: () => navigation.navigate('Home') }
+            ]
+        )
 
     const [checkedSchool1, setCheckedSchool1] = React.useState(false)
 
@@ -43,10 +90,24 @@ export default function SchoolOperations({ navigation, previus }) {
 
 
     const schoolIdCallback = useCallback((schoolType, id) => {
-        setSchool([
-            ...school,
-            { id: id, name: schoolType }
-        ])
+        if (id == 1) {
+            setSchool({
+                ...school,
+                schedules: schoolType
+            })
+        }
+        if (id == 2) {
+            setSchool({
+                ...school,
+                routine: schoolType
+            })
+        }
+        if (id == 3) {
+            setSchool({
+                ...school,
+                pedagogicalSupport: schoolType
+            })
+        }
     }, [school])
 
     return (
@@ -64,8 +125,8 @@ export default function SchoolOperations({ navigation, previus }) {
                                 <Text style={styles.textDentalOperations}>Você tem dificuldades para organizar seus horários?</Text>
                                 <RadioButton
                                     value="first"
-                                status={checkedSchool1? 'checked' : 'unchecked'}
-                                onPress={() => { school1Callback(), schoolIdCallback('Tem dificuldades para organizar seus horários', 1) }}
+                                    status={checkedSchool1 ? 'checked' : 'unchecked'}
+                                    onPress={() => { school1Callback(), schoolIdCallback('Tem dificuldades para organizar seus horários', 1) }}
                                 />
                             </View>
                             <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
@@ -90,6 +151,8 @@ export default function SchoolOperations({ navigation, previus }) {
                                 placeholderTextColor='#c85b53'
                                 style={styles.textInput}
                                 underlineColor="#c85b53"
+                                value={observations}
+                                onChangeText={observations => setObservations(observations)}
                                 multiline={true}
                                 numberOfLines={4}
                                 dense={true}
@@ -105,7 +168,7 @@ export default function SchoolOperations({ navigation, previus }) {
                             <FAB
                                 style={styles.buttonNewAcc}
                                 label="Salvar"
-                                onPress={() => console.log(school)}
+                                onPress={() => createSchoolHistory()}
                             />
                         </View>
                     </View>

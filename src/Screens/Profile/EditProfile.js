@@ -21,21 +21,24 @@ import {
 import styles from './styles'
 import { Formik } from 'formik';
 import * as yup from 'yup';
-
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
 import axios from 'axios'
 
+export default function EditProfile({ navigation, route }) {
 
-export default function NewAccount({ navigation, previous }) {
+    const user = route.params
+    console.log(user)
 
-
-    async function createAccount(name, email, register, password) {
-        axios.post(`http://10.0.2.2:3000/student`, {
+    async function editAccount(name, email, register, password) {
+        var id = await AsyncStorage.getItem('@UtfApi:id');
+        axios.patch(`http://10.0.2.2:3000/student`, {
             "email": email,
             "name": name,
             "register": register,
-            "password": password
+            "password": password,
+            "idStudent": id
         })
             .then(function (response) {
                 console.log(response.data);
@@ -53,20 +56,22 @@ export default function NewAccount({ navigation, previous }) {
     const createSuccessAlert = () =>
         Alert.alert(
             "Parabéns!",
-            "Sua conta foi criada com sucesso.",
+            "Sua conta foi alterada com sucesso.",
             [
-                { text: "Ok", onPress: () => navigation.navigate('Login') }
+                { text: "Ok", onPress: () => navigation.navigate('Profile') }
             ]
         )
 
     const createUnsuccessAlert = () =>
         Alert.alert(
             "Ops!",
-            "Não foi possível criar a sua conta. Verifique suas informações e tente novamente.",
+            "Não foi possível alterar a sua conta. Verifique suas informações e tente novamente.",
             [
                 { text: "Ok" }
             ]
         )
+
+
 
     const [data, setData] = React.useState({
         secureTextEntry: true,
@@ -113,17 +118,16 @@ export default function NewAccount({ navigation, previous }) {
         <PaperProvider theme={theme}>
             <View style={styles.background}>
 
-                <Appbar.Header style={{ backgroundColor: "#ffff" }}>
-                    <Appbar.BackAction onPress={navigation.goBack} color={'#c85b53'} />
-                    <Appbar.Content title="" />
+                <Appbar.Header style={{ backgroundColor: "#ff8b80" }}>
+                    <Appbar.BackAction onPress={navigation.goBack} color={'#404040'} />
+                    <Appbar.Content title="Editar minhas informações" color={'#404040'} />
                 </Appbar.Header>
                 <ImageBackground style={{ width: '100%', height: '100%' }} >
                     <Formik
                         initialValues={{
-                            name: '',
-                            email: '',
-                            username: '',
-                            register: '',
+                            name: user.name,
+                            email: user.email,
+                            register: user.register,
                             password: '',
                         }}
                         validationSchema={reviewSchema}>
@@ -131,7 +135,7 @@ export default function NewAccount({ navigation, previous }) {
                             <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
                                 <View style={styles.componentsView}>
                                     <View style={{ flex: 3, justifyContent: 'flex-end' }}>
-                                        <Text style={{ fontSize: 30, color: '#c85b53', fontFamily: 'sans-serif', alignSelf: 'center', marginBottom: 100 }}>Criar uma nova conta</Text>
+                                        <Text style={{ fontSize: 30, color: '#c85b53', fontFamily: 'sans-serif', alignSelf: 'center', marginBottom: 100 }}>Informações da conta</Text>
                                         <TextInput
                                             label='Nome'
                                             mode='flat'
@@ -211,7 +215,7 @@ export default function NewAccount({ navigation, previous }) {
                                         <FAB
                                             style={styles.buttonNewAcc}
                                             label="Salvar"
-                                            onPress={() => createAccount(
+                                            onPress={() => editAccount(
                                                 props.values.name,
                                                 props.values.email,
                                                 props.values.register,

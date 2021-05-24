@@ -13,7 +13,8 @@ import { createStackNavigator } from '@react-navigation/stack';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
-//import AsyncStorage from '@react-native-async-storage/async-storage';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
 
 import Home from './../Screens/Home/Home'
 import DrawerContent from './../Screens/Drawer/DrawerContent'
@@ -27,10 +28,10 @@ import ClinicalOperations from './../Screens/Student/medical history/ClinicalOpe
 import DentalOperations from './../Screens/Student/medical history/DentalOperations'
 import PsychologicalOperations from './../Screens/Student/medical history/PsychologicalOperations'
 import SchoolOperations from './../Screens/Student/medical history/SchoolOperations'
-
-
-
-
+import Onboarding from './../Screens/Onboarding/onboarding'
+import Profile from './../Screens/Profile/profile'
+import EditProfile from './../Screens/Profile/EditProfile'
+import Consultations from './../Screens/Student/Consultations'
 
 const Stack = createStackNavigator();
 const Drawer = createDrawerNavigator();
@@ -109,32 +110,32 @@ export default function StackScreen({ navigation }) {
   const [isFirstLaunch, setIsFirstLaunch] = useState(false);
 
   useEffect(() => {
-    {/** 
-    AsyncStorage.getItem('alreadyLaunched').then((value) => {
+
+    AsyncStorage.getItem('alreadyLaunchedd').then((value) => {
       if (value == null) {
-        AsyncStorage.setItem('alreadyLaunched', 'true');
+        AsyncStorage.setItem('alreadyLaunchedd', 'true');
         setIsFirstLaunch(true);
       } else {
         setIsFirstLaunch(false);
       }
-     
+
     });
-     */}
+
   }, []);
 
   if (isFirstLaunch == null) {
     return null;
-  } else if (isFirstLaunch == true) {
+  } else if (isFirstLaunch == false) {
     return (
       <Stack.Navigator>
-        {/**
+
         <Stack.Screen
           name="Onboarding"
-          options={{headerShown: false}}
+          options={{ headerShown: false }}
           component={Onboarding}
           initialRouteName={true}
         />
-         */}
+
         <Stack.Screen
           name="Home"
           options={{ headerShown: false }}
@@ -160,7 +161,7 @@ export default function StackScreen({ navigation }) {
           options={{ headerShown: false }}
           component={DentalOperations}
         />
-         <Stack.Screen
+        <Stack.Screen
           name="PsychologicalOperations"
           options={{ headerShown: false }}
           component={PsychologicalOperations}
@@ -169,6 +170,21 @@ export default function StackScreen({ navigation }) {
           name="SchoolOperations"
           options={{ headerShown: false }}
           component={SchoolOperations}
+        />
+        <Stack.Screen
+          name="Profile"
+          options={{ headerShown: false }}
+          component={Profile}
+        />
+         <Stack.Screen
+          name="EditProfile"
+          options={{ headerShown: false }}
+          component={EditProfile}
+        />
+         <Stack.Screen
+          name="Consultations"
+          options={{ headerShown: false }}
+          component={Consultations}
         />
       </Stack.Navigator>
 
@@ -206,10 +222,20 @@ export default function StackScreen({ navigation }) {
           options={{ headerShown: false }}
           component={PsychologicalOperations}
         />
-         <Stack.Screen
+        <Stack.Screen
           name="SchoolOperations"
           options={{ headerShown: false }}
           component={SchoolOperations}
+        />
+        <Stack.Screen
+          name="Profile"
+          options={{ headerShown: false }}
+          component={Profile}
+        />
+        <Stack.Screen
+          name="Consultations"
+          options={{ headerShown: false }}
+          component={Consultations}
         />
       </Stack.Navigator>
     );

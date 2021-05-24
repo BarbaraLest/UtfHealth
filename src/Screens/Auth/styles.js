@@ -4,7 +4,7 @@ import { DefaultTheme } from 'react-native-paper'
 export default {
   background: {
     flex: 1,
-    backgroundColor: 'transparent',
+    backgroundColor: '#ffff',
     flexDirection: 'column',
   },
 
@@ -45,7 +45,7 @@ export default {
   },
 
   componentsView: {
-    backgroundColor: 'transparent',
+    backgroundColor: '#ffff',
     flex: 1,
     width: '87%',
     justifyContent: 'space-evenly',
@@ -61,13 +61,13 @@ export default {
     justifyContent: 'flex-end',
   },
 
- 
+
   labelMenuOptions: {
     color: '#C85A54',
     fontSize: 18,
     alignSelf: 'center'
   },
-  
+
   labelUsernameMenu: {
     color: '#C85A54',
     fontSize: 25,
@@ -79,7 +79,7 @@ export default {
     color: '#404040',
     fontSize: 22,
     alignSelf: 'center',
-    marginBottom:25
+    marginBottom: 25
   },
 
   textError: {
@@ -103,7 +103,7 @@ export default {
       primary: '#ff8b80',
       accent: '#c85b53',
       background: '#f5f5f6',
-      backdrop:'#c85b53',
+      backdrop: '#c85b53',
       text: '#404040'
     },
     fonts: 'regular'

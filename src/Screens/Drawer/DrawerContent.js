@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import { View, Text, Image } from 'react-native';
 import {
   Title,
@@ -11,28 +11,50 @@ import {
 import { DrawerItem } from '@react-navigation/drawer';
 import styles from './styles';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import { AuthContext } from './../../Navigation/Context';
 
 export default function DrawerContent(props) {
-    const {signOut} = React.useContext(AuthContext);
 
-  const FakeUser = {
-    name: 'Barbara Rodrigues',
-    register: '2041707'
+
+  const { signOut } = React.useContext(AuthContext);
+
+  useEffect(() => {
+    getStudent()
+  }, []);
+
+
+  const [user, setUser] = useState({
+    name: " ",
+    register: " "
+  })
+
+  const userCallback = useCallback((register, name) => {
+    setUser({
+      name: name,
+      register: register
+    })
+  }, [user])
+
+  async function getStudent() {
+    var register = await AsyncStorage.getItem('@UtfApi:register');
+    var name = await AsyncStorage.getItem('@UtfApi:name');
+    userCallback(register, name)
   }
+
 
   return (
     <PaperProvider theme={styles.theme}>
       <View style={styles.menuOptionsGlobalView}>
         <View style={styles.menuOptionsView}>
           <View style={styles.menuTextView}>
-            <Text style={styles.labelUsernameMenu}>{FakeUser.name}</Text>
-            <Text style={styles.labelRegisterMenu}>{FakeUser.register}</Text>
-     
+            <Text style={styles.labelUsernameMenu}>{user.name}</Text>
+            <Text style={styles.labelRegisterMenu}>{user.register}</Text>
+
           </View>
-          <View style={{ flex: 2, marginTop:100}}>
-          <Divider />
+          <View style={{ flex: 2, marginTop: 100 }}>
+            <Divider />
             <Drawer.Section>
               <DrawerItem
                 style={styles.drawerSection}
@@ -53,7 +75,7 @@ export default function DrawerContent(props) {
                 label="Perfil"
                 labelStyle={styles.labelMenuOptions}
                 onPress={() => {
-                  // props.navigation.navigate('Profile');
+                  props.navigation.navigate('Profile');
                 }}
               />
               <DrawerItem
@@ -82,7 +104,7 @@ export default function DrawerContent(props) {
             label="Encerrar sessão"
             labelStyle={styles.labelLogout}
             onPress={() => {
-                signOut();
+              signOut();
             }}
           />
         </Drawer.Section>

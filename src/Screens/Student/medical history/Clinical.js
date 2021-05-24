@@ -1,20 +1,68 @@
-import * as React from 'react';
-import { Text, View, TouchableOpacity, ScrollView } from 'react-native';
+import React, { useState, useCallback, useEffect } from 'react';
+import { Text, View, TouchableOpacity, ScrollView, FlatList } from 'react-native';
 import {
     FAB,
     Appbar,
     TextInput,
     DefaultTheme,
     Divider,
-    Provider as PaperProvider
+    Provider as PaperProvider,
+    List
 } from 'react-native-paper';
 import styles from './../components/styles'
 import Icon from 'react-native-vector-icons/MaterialIcons';
-
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import axios from 'axios'
 
 export default function Clinical({ navigation }) {
 
-    const isEmpty = true
+
+    useEffect(() => {
+        getStudent()
+    }, []);
+
+
+    const [empty, setEmpty] = useState({ data: null })
+
+    const emptyCallback = useCallback((data) => {
+        setEmpty(data)
+    }, [empty])
+
+
+    async function getStudent() {
+        var id = await AsyncStorage.getItem('@UtfApi:idStudent');
+        axios.get(`http://10.0.2.2:3000/clinicalHistory/emptyOrNot/${id}`)
+            .then(function (response) {
+                console.log(response.data);
+                emptyCallback(response.data)
+                //createSuccessAlert()
+            })
+            .catch(function (error) {
+                console.log(error);
+            })
+
+    }
+
+    function History({ allergy1, allergy2, allergy3, chronicDisease1, chronicDisease2, chronicDisease3, familyDisease1, familyDisease2, familyDisease3, observation }) {
+        return (
+            <TouchableOpacity>
+                <View style={{ flexDirection: 'column' }}>
+                    <Text style={styles.subTextFlatlistRowBlack}>{allergy1}</Text>
+                    <Text style={styles.subTextFlatlistRowBlack}>{allergy2}</Text>
+                    <Text style={styles.subTextFlatlistRowBlack}>{allergy3}</Text>
+                    <Text style={styles.subTextFlatlistRowBlack}>{chronicDisease1}</Text>
+                    <Text style={styles.subTextFlatlistRowBlack}>{chronicDisease2}</Text>
+                    <Text style={styles.subTextFlatlistRowBlack}>{chronicDisease3}</Text>
+                    <Text style={styles.subTextFlatlistRowBlack}>{familyDisease1}</Text>
+                    <Text style={styles.subTextFlatlistRowBlack}>{familyDisease2}</Text>
+                    <Text style={styles.subTextFlatlistRowBlack}>{familyDisease3}</Text>
+                    <Text style={styles.subTextFlatlistRowBlack}>{observation}</Text>
+                </View>
+                <Divider style={{ backgroundColor: '#c2c6ca', marginTop: 20 }} />
+            </TouchableOpacity>
+        )
+    }
+
 
     function ScreenNotEmpty() {
         return (
@@ -29,97 +77,19 @@ export default function Clinical({ navigation }) {
                         <View style={{ flex: 1, justifyContent: 'flex-start' }}>
                             <Text style={{ fontSize: 25, color: '#c85b53', fontFamily: 'sans-serif', alignSelf: 'center', marginTop: 30 }}> Histórico Clínico</Text>
                             <Divider />
-                        </View>
-                        <View style={{ flex: 5, justifyContent: 'space-around' }}>
-                            <Text
-                                style={{
-                                    fontSize: 15,
-                                    fontFamily: 'sans-serif',
-                                    color: '#9b9b9b',
+                            <FlatList
+                                style={{ marginTop: 40 }}
+                                data={empty.data}
+                                keyExtractor={(item) => item.id}
+                                renderItem={({ item }) =>
+                                    <History allergy1={item.allergy1} allergy2={item.allergy2} allergy3={item.allergy3}
+                                        chronicDisease1={item.chronicDisease1} chronicDisease2={item.chronicDisease2} chronicDisease3={item.chronicDisease3}
+                                        familyDisease1={item.familyDisease1} familyDisease2={item.familyDisease2} familyDisease3={item.familyDisease3} observation={item.observation}
+                                    />}
+                            >
+                            </FlatList>
 
 
-                                }}>
-                                {' '}
-                   "INFO"
-                  </Text>
-
-                            <Text
-                                style={{
-                                    fontSize: 17,
-                                    fontFamily: 'sans-serif',
-                                    //   marginBottom: 5,
-                                }}>
-                                {' '}
-                    "INFO"
-                  </Text>
-
-                            <Divider />
-                            <Text
-                                style={{
-                                    fontSize: 15,
-                                    fontFamily: 'sans-serif',
-                                    color: '#9b9b9b',
-
-                                }}>
-                                {' '}
-                    "INFO"
-                  </Text>
-
-                            <Text
-                                style={{
-                                    fontSize: 17,
-                                    fontFamily: 'sans-serif',
-                                    //  marginBottom: 5,
-                                }}>
-                                {' '}
-                    "INFO"
-                  </Text>
-
-                            <Divider />
-                            <Text
-                                style={{
-                                    fontSize: 15,
-                                    fontFamily: 'sans-serif',
-                                    color: '#9b9b9b',
-
-                                }}>
-                                {' '}
-                    "INFO"
-                  </Text>
-
-                            <Text
-                                style={{
-                                    fontSize: 17,
-                                    fontFamily: 'sans-serif',
-                                    //  marginBottom: 5,
-                                }}>
-                                "INFO"
-                  </Text>
-
-                            <Divider />
-                            <Text
-                                style={{
-                                    fontSize: 15,
-                                    fontFamily: 'sans-serif',
-                                    color: '#9b9b9b',
-
-                                }}>
-                                {' '}
-                    "INFO"
-                  </Text>
-
-                            <Text
-                                style={{
-                                    fontSize: 17,
-                                    fontFamily: 'sans-serif',
-                                    //   marginBottom: 5,
-                                }}>
-                                {' '}
-                    "INFO"
-                    </Text>
-
-                        </View>
-                        <View style={{ flex: 2 }}>
                         </View>
                     </View>
 
@@ -159,7 +129,7 @@ export default function Clinical({ navigation }) {
         )
     }
 
-    return isEmpty == 'true' ? <ScreenNotEmpty /> : <ScreenEmpty />;
+    return empty.data == null ? <ScreenEmpty /> : <ScreenNotEmpty />;
 
 
 }

@@ -18,7 +18,6 @@ export default {
 
   card2: {
     height: '70%',
-    width: '45%',
     borderRadius: 15,
     //backgroundColor: '#ff7bbc'
     backgroundColor: '#ffff'
@@ -102,9 +101,8 @@ export default {
 
   homeCardViewSmall: {
     flex: 2,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center'
+    justifyContent: 'center'
+
   },
 
 

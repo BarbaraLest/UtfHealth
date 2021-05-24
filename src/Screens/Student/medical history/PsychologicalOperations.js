@@ -2,26 +2,70 @@ import React, { useState, useCallback } from 'react'
 import {
     View,
     Text,
-    TouchableOpacity,
     TouchableWithoutFeedback,
     Keyboard,
-    FlatList
+    Alert
 } from 'react-native'
 import {
     Appbar,
     TextInput,
     FAB,
-    Divider,
     Provider as PaperProvider,
-    DefaultTheme,
     RadioButton
 } from 'react-native-paper'
 import styles from './../components/styles'
-import Icon from 'react-native-vector-icons/MaterialIcons';
+import axios from 'axios'
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function PsychologicalOperations({ navigation, previus }) {
 
-    const [psycho, setPsycho] = useState([])
+    const [psycho, setPsycho] = useState({
+        psycho1: "Não",
+        psycho2: "Não",
+        psycho3: "Não",
+        psycho4: "Não"
+    })
+
+    const [observations, setObservations] = useState(" ")
+
+    async function createPsychoHistory() {
+        var id = await AsyncStorage.getItem('@UtfApi:idStudent');
+        axios.post(`http://10.0.2.2:3000/psychologicalHistory`, {
+            "idStudent": id,
+            "psychologicalSupport": psycho.psycho1,
+            "tdah": psycho.psycho2,
+            "anxiety": psycho.psycho3,
+            "antidepressant": psycho.psycho4,
+            "observation": observations
+        })
+            .then(function (response) {
+                console.log(response.data);
+                createSuccessAlert()
+            })
+            .catch(function (error) {
+                console.log(error);
+                createUnsuccessAlert()
+            })
+
+    }
+
+    const createSuccessAlert = () =>
+        Alert.alert(
+            "Parabéns!",
+            "Seu histórico psicológico foi criado com sucesso.",
+            [
+                { text: "Ok", onPress: () => navigation.navigate('Home') }
+            ]
+        )
+
+    const createUnsuccessAlert = () =>
+        Alert.alert(
+            "Ops!",
+            "Não criar seu histórico. Verifique suas informações e tente novamente.",
+            [
+                { text: "Ok", onPress: () => navigation.navigate('Home') }
+            ]
+        )
 
     const [checkedPsycho1, setCheckedPsycho1] = React.useState(false)
 
@@ -49,10 +93,30 @@ export default function PsychologicalOperations({ navigation, previus }) {
 
 
     const psychoIdCallback = useCallback((psycholType, id) => {
-        setPsycho([
-            ...psycho,
-            { id: id, name: psycholType }
-        ])
+        if (id == 1) {
+            setPsycho({
+                ...psycho,
+                psycho1: psycholType
+            })
+        }
+        if (id == 2) {
+            setPsycho({
+                ...psycho,
+                psycho2: psycholType
+            })
+        }
+        if (id == 3) {
+            setPsycho({
+                ...psycho,
+                psycho3: psycholType
+            })
+        }
+        if (id == 4) {
+            setPsycho({
+                ...psycho,
+                psycho4: psycholType
+            })
+        }
     }, [psycho])
 
     return (
@@ -70,8 +134,8 @@ export default function PsychologicalOperations({ navigation, previus }) {
                                 <Text style={styles.textDentalOperations}>Você fez acompanhamento psicológico? </Text>
                                 <RadioButton
                                     value="first"
-                                status={checkedPsycho1? 'checked' : 'unchecked'}
-                                onPress={() => { psycho1Callback(), psychoIdCallback('Já fez acompanhamento psicológico', 1) }}
+                                    status={checkedPsycho1 ? 'checked' : 'unchecked'}
+                                    onPress={() => { psycho1Callback(), psychoIdCallback('Já fez acompanhamento psicológico', 1) }}
                                 />
                             </View>
                             <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
@@ -103,6 +167,8 @@ export default function PsychologicalOperations({ navigation, previus }) {
                                 mode='flat'
                                 placeholderTextColor='#c85b53'
                                 style={styles.textInput}
+                                value={observations}
+                                onChangeText={observations => setObservations(observations)}
                                 underlineColor="#c85b53"
                                 multiline={true}
                                 numberOfLines={4}
@@ -119,7 +185,7 @@ export default function PsychologicalOperations({ navigation, previus }) {
                             <FAB
                                 style={styles.buttonNewAcc}
                                 label="Salvar"
-                                onPress={() => console.log(psycho)}
+                                onPress={() => createPsychoHistory()}
                             />
                         </View>
                     </View>

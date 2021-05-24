@@ -24,7 +24,7 @@ export default {
     //flexDirection:'row'.
 
   },
- 
+
   labelMenuOptions: {
     color: '#C85A54',
     fontSize: 18,
@@ -36,7 +36,7 @@ export default {
     fontSize: 18,
     alignSelf: 'center'
   },
-  
+
   labelUsernameMenu: {
     color: '#C85A54',
     fontSize: 25,
@@ -48,7 +48,7 @@ export default {
     color: '#404040',
     fontSize: 22,
     alignSelf: 'center',
-    marginBottom:25
+    marginBottom: 25
   },
 
   logoutView: {
@@ -95,7 +95,7 @@ export default {
       primary: '#ff8b80',
       accent: '#c85b53',
       background: '#f5f5f6',
-      backdrop:'#c85b53',
+      backdrop: '#c85b53',
       text: '#404040'
     },
     fonts: 'regular'

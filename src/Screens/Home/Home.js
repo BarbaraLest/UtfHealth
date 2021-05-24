@@ -55,7 +55,7 @@ export default function Home({ navigation }) {
   function HomeUser() {
     return (
       <View style={styles.background}>
-        <ImageBackground source={fundo} style={{ width: '100%', height: '100%', alignItems: 'center', marginTop:-3}} >
+        <ImageBackground source={fundo} style={{ width: '100%', height: '100%', alignItems: 'center', marginTop: -3 }} >
           <View style={styles.homeHeaderContainer}>
             <IconButton
               icon="menu"
@@ -72,9 +72,9 @@ export default function Home({ navigation }) {
                   elevation={3}
                   onPress={() => navigation.navigate('Appointment')}
                 >
-                 <Icon name="calendar-clock" size={60} color="#00baca" style={{alignSelf:'center', marginTop:15}}/>
-                  <Card.Content > 
-                    <Title style={{alignSelf:'center', color:'#00baca'}}>Marcar consulta</Title>
+                  <Icon name="calendar-clock" size={60} color="#00baca" style={{ alignSelf: 'center', marginTop: 15 }} />
+                  <Card.Content >
+                    <Title style={{ alignSelf: 'center', color: '#00baca' }}>Marcar consulta</Title>
 
                   </Card.Content>
                 </Card>
@@ -84,22 +84,11 @@ export default function Home({ navigation }) {
                 <Card
                   style={styles.card2}
                   elevation={3}
+                  onPress={() => navigation.navigate('Consultations')}
                 >
-                  <Icon name="calendar-multiselect" size={60} color="#00cf43" style={{alignSelf:'center', marginTop:15}}/>
-                  <Card.Content > 
-                    <Title style={{alignSelf:'center', color:'#00cf43'}}>Calendário</Title>
-
-                  </Card.Content>
-                </Card>
-
-                <Card
-                  style={styles.card3}
-                  elevation={3}
-                >
-                  <Icon name="rocket" size={60} color="#cb005c" style={{alignSelf:'center', marginTop:15}}/>
-                  <Card.Content > 
-                    <Title style={{alignSelf:'center', color:'#cb005c'}}>Calendário</Title>
-
+                  <Icon name="calendar-multiselect" size={60} color="#00cf43" style={{ alignSelf: 'center', marginTop: 15 }} />
+                  <Card.Content >
+                    <Title style={{ alignSelf: 'center', color: '#00cf43' }}>Minhas consultas</Title>
                   </Card.Content>
                 </Card>
               </View>
@@ -110,9 +99,9 @@ export default function Home({ navigation }) {
                   elevation={3}
                   onPress={() => navigation.navigate('Clinical')}
                 >
-                  <Icon name="ballot" size={60} color="#f47806" style={{alignSelf:'center', marginTop:15}}/>
-                  <Card.Content > 
-                    <Title style={{alignSelf:'center', color:'#f47806'}}>Histórico médico</Title>
+                  <Icon name="ballot" size={60} color="#f47806" style={{ alignSelf: 'center', marginTop: 15 }} />
+                  <Card.Content >
+                    <Title style={{ alignSelf: 'center', color: '#f47806' }}>Histórico médico</Title>
 
                   </Card.Content>
                 </Card>

@@ -102,6 +102,17 @@ export default function Rotas() {
     }
   };
 
+  const setEmail = async (email) => {
+    try {
+      await AsyncStorage.setItem(
+        '@UtfApi:email',
+        email,
+      );
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
   const authContext = React.useMemo(
     () => ({
       signIn: async (userName, password) => {
@@ -115,6 +126,7 @@ export default function Rotas() {
               setId(response.data.idStudent)
               setName(response.data.name)
               setRegister(response.data.register)
+              setEmail(response.data.email)
           })
           .catch(function (error) {
             console.log(error);
