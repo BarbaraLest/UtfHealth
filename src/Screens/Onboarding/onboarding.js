@@ -7,6 +7,8 @@ import img3 from './../../../assets/imgs/health.png'
 import img4 from './../../../assets/imgs/start.png'
 
 
+// @flow
+
 export default function OnboardingScreen({ navigation }) {
   return (
     <Onboarding

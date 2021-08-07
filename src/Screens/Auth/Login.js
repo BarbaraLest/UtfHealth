@@ -30,6 +30,8 @@ import fundo from './../../../assets/imgs/fundoR3.png'
 
 export default function Login({ navigation }) {
 
+ // @flow
+
   const [data, setData] = React.useState({
     secureTextEntry: true,
     passwordSecureIcon: 'eye-off',

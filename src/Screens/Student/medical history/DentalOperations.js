@@ -16,7 +16,7 @@ import {
 import styles from './../components/styles'
 import axios from 'axios'
 import AsyncStorage from '@react-native-async-storage/async-storage';
-
+// @flow
 
 
 export default function DentalOperations({ navigation, previus }) {

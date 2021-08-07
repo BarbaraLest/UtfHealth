@@ -9,7 +9,7 @@ import {
 import styles from './../components/styles'
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios'
-
+// @flow
 
 
 export default function School({ navigation }) {

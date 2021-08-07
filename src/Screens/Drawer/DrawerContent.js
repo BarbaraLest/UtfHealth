@@ -15,6 +15,8 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import { AuthContext } from './../../Navigation/Context';
 
+// @flow
+
 export default function DrawerContent(props) {
 
 

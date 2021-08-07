@@ -21,6 +21,7 @@ import styles from './../components/styles'
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import axios from 'axios'
 import AsyncStorage from '@react-native-async-storage/async-storage';
+// @flow
 
 
 export default function ClinicalOperations({ navigation, previus }) {

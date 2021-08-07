@@ -26,10 +26,14 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import axios from 'axios'
 
+// @flow
+
 export default function EditProfile({ navigation, route }) {
 
     const user = route.params
     console.log(user)
+
+    //bool teste = 'aaa';
 
     async function editAccount(name, email, register, password) {
         var id = await AsyncStorage.getItem('@UtfApi:id');

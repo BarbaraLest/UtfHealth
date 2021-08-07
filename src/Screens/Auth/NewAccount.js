@@ -26,9 +26,11 @@ import * as yup from 'yup';
 
 import axios from 'axios'
 
+// @flow
 
 export default function NewAccount({ navigation, previous }) {
 
+    // @flow
 
     async function createAccount(name, email, register, password) {
         axios.post(`http://10.0.2.2:3000/student`, {

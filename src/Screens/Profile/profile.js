@@ -9,6 +9,8 @@ import {
 import styles from './styles'
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
+// @flow
+
 export default function Profile({ navigation }) {
 
     useEffect(() => {

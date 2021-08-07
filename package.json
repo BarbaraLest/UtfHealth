@@ -2,7 +2,13 @@
   "name": "Projeto",
   "version": "0.0.1",
   "private": true,
+  "main": "index.js",
   "scripts": {
+    "flow": "flow",
+    "flow-covarage": "./node_modules/.bin/flow-coverage-report -i src/**/*.js -o coverage -t text -t html",
+    "test": "npm run flow-check && npm run flow-coverage",
+    "build": "babel src/ -d lib/",
+    "prepublish": "yarn run build",
     "android": "react-native run-android",
     "ios": "react-native run-ios",
     "start": "react-native start",
@@ -32,11 +38,15 @@
     "yup": "^0.32.9"
   },
   "devDependencies": {
-    "@babel/core": "^7.13.16",
+    "@babel/cli": "^7.14.8",
+    "@babel/core": "^7.15.0",
+    "@babel/preset-flow": "^7.14.5",
     "@babel/runtime": "^7.13.17",
     "@react-native-community/eslint-config": "^2.0.0",
     "babel-jest": "^26.6.3",
     "eslint": "^7.25.0",
+    "flow-bin": "^0.156.0",
+    "flow-coverage-report": "^0.8.0",
     "jest": "^26.6.3",
     "metro-react-native-babel-preset": "^0.66.0",
     "react-test-renderer": "17.0.1"

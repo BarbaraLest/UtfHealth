@@ -10,6 +10,7 @@ import { setNestedObjectValues } from 'formik';
 //import Icon from 'react-native-vector-icons/MaterialIcons';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
+// @flow
 
 export default function Home({ navigation }) {
 

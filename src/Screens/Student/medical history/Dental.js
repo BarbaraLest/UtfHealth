@@ -11,6 +11,8 @@ import {
 import styles from './../components/styles'
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+
+// @flow
 import axios from 'axios'
 
 export default function Dental({ navigation }) {

@@ -37,6 +37,7 @@ const Stack = createStackNavigator();
 const Drawer = createDrawerNavigator();
 const Tab = createBottomTabNavigator();
 
+// @flow
 
 const Menu = () => {
   return (

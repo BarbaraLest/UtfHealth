@@ -2,6 +2,8 @@ import React, {useState} from 'react'
 import axios from 'axios'
 //import api from './../API/api'
 
+// @flow
+
 export default  Response = async () => {
     
   const [list, setList] = useState()

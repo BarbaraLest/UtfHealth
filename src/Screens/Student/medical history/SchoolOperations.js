@@ -20,7 +20,7 @@ import styles from './../components/styles'
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import axios from 'axios'
 import AsyncStorage from '@react-native-async-storage/async-storage';
-
+// @flow
 export default function SchoolOperations({ navigation, previus }) {
 
     const [school, setSchool] = useState({

@@ -13,6 +13,7 @@ import Login from './../Screens/Auth/Login'
 import NewAccount from './../Screens/Auth/NewAccount'
 
 
+// @flow
 
 const Stack = createStackNavigator();
 

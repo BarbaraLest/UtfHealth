@@ -28,6 +28,7 @@ import dates from './../../Models/Doctor/dates'
 
 
 LogBox.ignoreAllLogs();
+// @flow
 
 
 export default function Appointment({ navigation, previus }) {
